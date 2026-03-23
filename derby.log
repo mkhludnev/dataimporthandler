@@ -1,3 +1,138 @@
 ----------------------------------------------------------------
-Mon Mar 23 23:10:42 GMT+05:00 2026: Shutting down Derby engine
+Mon Mar 23 23:37:22 GMT+05:00 2026:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-019d-1bfc-c1e0-00000715e068 
+on database directory memory:/home/runner/work/dataimporthandler/dataimporthandler/tempDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@639fee48 
+Loaded from file:/home/runner/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
+java.vendor=Eclipse Adoptium
+java.runtime.version=21.0.10+7-LTS
+user.dir=/home/runner/work/dataimporthandler/dataimporthandler
+os.name=Linux
+os.arch=amd64
+os.version=6.14.0-1017-azure
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Mar 23 19:37:23 CET 2026:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance ce8780ad-019d-1bfc-c1e0-00000715e068 
+on database directory memory:/home/runner/work/dataimporthandler/dataimporthandler/derbyDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@639fee48 
+Loaded from file:/home/runner/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
+java.vendor=Eclipse Adoptium
+java.runtime.version=21.0.10+7-LTS
+user.dir=/home/runner/work/dataimporthandler/dataimporthandler
+os.name=Linux
+os.arch=amd64
+os.version=6.14.0-1017-azure
+derby.system.home=null
+derby.stream.error.field=org.apache.solr.handler.dataimport.AbstractDIHJdbcTestCase$DerbyUtil.DEV_NULL
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Mar 23 19:37:23 CET 2026:
+Shutting down instance ce8780ad-019d-1bfc-c1e0-00000715e068 on database directory memory:/home/runner/work/dataimporthandler/dataimporthandler/derbyDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@639fee48 
+----------------------------------------------------------------
+Mon Mar 23 19:37:24 CET 2026:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance 9b638174-019d-1bfc-c1e0-00000715e068 
+on database directory memory:/home/runner/work/dataimporthandler/dataimporthandler/derbyDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@639fee48 
+Loaded from file:/home/runner/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
+java.vendor=Eclipse Adoptium
+java.runtime.version=21.0.10+7-LTS
+user.dir=/home/runner/work/dataimporthandler/dataimporthandler
+os.name=Linux
+os.arch=amd64
+os.version=6.14.0-1017-azure
+derby.system.home=null
+derby.stream.error.field=org.apache.solr.handler.dataimport.AbstractDIHJdbcTestCase$DerbyUtil.DEV_NULL
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Mar 23 19:37:24 CET 2026:
+Shutting down instance 9b638174-019d-1bfc-c1e0-00000715e068 on database directory memory:/home/runner/work/dataimporthandler/dataimporthandler/derbyDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@639fee48 
+----------------------------------------------------------------
+Mon Mar 23 19:37:24 CET 2026:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance 9fc7c266-019d-1bfc-c1e0-00000715e068 
+on database directory memory:/home/runner/work/dataimporthandler/dataimporthandler/derbyDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@639fee48 
+Loaded from file:/home/runner/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
+java.vendor=Eclipse Adoptium
+java.runtime.version=21.0.10+7-LTS
+user.dir=/home/runner/work/dataimporthandler/dataimporthandler
+os.name=Linux
+os.arch=amd64
+os.version=6.14.0-1017-azure
+derby.system.home=null
+derby.stream.error.field=org.apache.solr.handler.dataimport.AbstractDIHJdbcTestCase$DerbyUtil.DEV_NULL
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Mar 23 19:37:24 CET 2026:
+Shutting down instance 9fc7c266-019d-1bfc-c1e0-00000715e068 on database directory memory:/home/runner/work/dataimporthandler/dataimporthandler/derbyDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@639fee48 
+----------------------------------------------------------------
+Mon Mar 23 19:37:25 CET 2026:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance 87f7432a-019d-1bfc-c1e0-00000715e068 
+on database directory memory:/home/runner/work/dataimporthandler/dataimporthandler/derbyDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@639fee48 
+Loaded from file:/home/runner/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
+java.vendor=Eclipse Adoptium
+java.runtime.version=21.0.10+7-LTS
+user.dir=/home/runner/work/dataimporthandler/dataimporthandler
+os.name=Linux
+os.arch=amd64
+os.version=6.14.0-1017-azure
+derby.system.home=null
+derby.stream.error.field=org.apache.solr.handler.dataimport.AbstractDIHJdbcTestCase$DerbyUtil.DEV_NULL
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Mar 23 19:37:25 CET 2026:
+Shutting down instance 87f7432a-019d-1bfc-c1e0-00000715e068 on database directory memory:/home/runner/work/dataimporthandler/dataimporthandler/derbyDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@639fee48 
+----------------------------------------------------------------
+Mon Mar 23 19:37:26 CET 2026:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance cc93840d-019d-1bfc-c1e0-00000715e068 
+on database directory memory:/home/runner/work/dataimporthandler/dataimporthandler/derbyDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@639fee48 
+Loaded from file:/home/runner/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
+java.vendor=Eclipse Adoptium
+java.runtime.version=21.0.10+7-LTS
+user.dir=/home/runner/work/dataimporthandler/dataimporthandler
+os.name=Linux
+os.arch=amd64
+os.version=6.14.0-1017-azure
+derby.system.home=null
+derby.stream.error.field=org.apache.solr.handler.dataimport.AbstractDIHJdbcTestCase$DerbyUtil.DEV_NULL
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Mar 23 19:37:26 CET 2026:
+Shutting down instance cc93840d-019d-1bfc-c1e0-00000715e068 on database directory memory:/home/runner/work/dataimporthandler/dataimporthandler/derbyDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@639fee48 
+----------------------------------------------------------------
+Mon Mar 23 19:37:26 CET 2026:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance 8a1ec4ce-019d-1bfc-c1e0-00000715e068 
+on database directory memory:/home/runner/work/dataimporthandler/dataimporthandler/derbyDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@639fee48 
+Loaded from file:/home/runner/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
+java.vendor=Eclipse Adoptium
+java.runtime.version=21.0.10+7-LTS
+user.dir=/home/runner/work/dataimporthandler/dataimporthandler
+os.name=Linux
+os.arch=amd64
+os.version=6.14.0-1017-azure
+derby.system.home=null
+derby.stream.error.field=org.apache.solr.handler.dataimport.AbstractDIHJdbcTestCase$DerbyUtil.DEV_NULL
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Mar 23 19:37:26 CET 2026:
+Shutting down instance 8a1ec4ce-019d-1bfc-c1e0-00000715e068 on database directory memory:/home/runner/work/dataimporthandler/dataimporthandler/derbyDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@639fee48 
+----------------------------------------------------------------
+Mon Mar 23 19:37:27 CET 2026:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance 7e9c45a2-019d-1bfc-c1e0-00000715e068 
+on database directory memory:/home/runner/work/dataimporthandler/dataimporthandler/derbyDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@639fee48 
+Loaded from file:/home/runner/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
+java.vendor=Eclipse Adoptium
+java.runtime.version=21.0.10+7-LTS
+user.dir=/home/runner/work/dataimporthandler/dataimporthandler
+os.name=Linux
+os.arch=amd64
+os.version=6.14.0-1017-azure
+derby.system.home=null
+derby.stream.error.field=org.apache.solr.handler.dataimport.AbstractDIHJdbcTestCase$DerbyUtil.DEV_NULL
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Mar 23 19:37:27 CET 2026:
+Shutting down instance 7e9c45a2-019d-1bfc-c1e0-00000715e068 on database directory memory:/home/runner/work/dataimporthandler/dataimporthandler/derbyDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@639fee48 
+----------------------------------------------------------------
+Mon Mar 23 19:37:27 CET 2026: Shutting down Derby engine
+----------------------------------------------------------------
+Mon Mar 23 19:37:27 CET 2026:
+Shutting down instance a816c00e-019d-1bfc-c1e0-00000715e068 on database directory memory:/home/runner/work/dataimporthandler/dataimporthandler/tempDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@639fee48 
 ----------------------------------------------------------------

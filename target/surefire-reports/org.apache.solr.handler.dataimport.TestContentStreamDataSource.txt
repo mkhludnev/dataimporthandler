@@ -1,15 +1,53 @@
 -------------------------------------------------------------------------------
 Test set: org.apache.solr.handler.dataimport.TestContentStreamDataSource
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.026 s <<< FAILURE! -- in org.apache.solr.handler.dataimport.TestContentStreamDataSource
-org.apache.solr.handler.dataimport.TestContentStreamDataSource -- Time elapsed: 0.024 s <<< ERROR!
-java.lang.NoClassDefFoundError: Could not initialize class org.apache.solr.util.ExternalPaths
-	at __randomizedtesting.SeedInfo.seed([44E6C44D5CB6B8FE]:0)
-	at org.apache.solr.SolrTestCase.beforeSolrTestCase(SolrTestCase.java:135)
+Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.696 s <<< FAILURE! -- in org.apache.solr.handler.dataimport.TestContentStreamDataSource
+org.apache.solr.handler.dataimport.TestContentStreamDataSource.testCommitWithin -- Time elapsed: 0.493 s <<< ERROR!
+org.apache.solr.client.solrj.RemoteSolrException: 
+Error from server at http://127.0.0.1:43017/solr/solr/collection1: Expected mime type in [application/octet-stream, application/vnd.apache.solr.javabin] but got text/html. <html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1"/>
+<title>Error 404 Can not find: /solr/solr/collection1/dataimport</title>
+</head>
+<body>
+<h2>HTTP ERROR 404 Can not find: /solr/solr/collection1/dataimport</h2>
+<table>
+<tr><th>URI:</th><td>http://127.0.0.1:43017/solr/solr/collection1/dataimport?command=full-import&amp;clean=false&amp;commit=false&amp;commitWithin=1000&amp;wt=javabin</td></tr>
+<tr><th>STATUS:</th><td>404</td></tr>
+<tr><th>MESSAGE:</th><td>Can not find: /solr/solr/collection1/dataimport</td></tr>
+</table>
+<hr/><a href="https://jetty.org/">Powered by Jetty:// 12.0.27</a><hr/>
+
+</body>
+</html>
+
+	at __randomizedtesting.SeedInfo.seed([AD1B9634EF3FB79F:17C9F94C6C11598A]:0)
+	at org.apache.solr.client.solrj.apache.HttpSolrClient.executeMethod(HttpSolrClient.java:654)
+	at org.apache.solr.client.solrj.apache.HttpSolrClient.request(HttpSolrClient.java:254)
+	at org.apache.solr.client.solrj.apache.HttpSolrClient.request(HttpSolrClient.java:233)
+	at org.apache.solr.client.solrj.SolrClient.request(SolrClient.java:1195)
+	at org.apache.solr.handler.dataimport.TestContentStreamDataSource.testCommitWithin(TestContentStreamDataSource.java:103)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 	at com.carrotsearch.randomizedtesting.RandomizedRunner.invoke(RandomizedRunner.java:1763)
-	at com.carrotsearch.randomizedtesting.RandomizedRunner$6.evaluate(RandomizedRunner.java:886)
+	at com.carrotsearch.randomizedtesting.RandomizedRunner$8.evaluate(RandomizedRunner.java:946)
+	at com.carrotsearch.randomizedtesting.RandomizedRunner$9.evaluate(RandomizedRunner.java:982)
+	at com.carrotsearch.randomizedtesting.RandomizedRunner$10.evaluate(RandomizedRunner.java:996)
+	at com.carrotsearch.randomizedtesting.rules.SystemPropertiesRestoreRule$1.evaluate(SystemPropertiesRestoreRule.java:80)
+	at org.junit.rules.RunRules.evaluate(RunRules.java:20)
+	at org.apache.lucene.tests.util.TestRuleSetupTeardownChained$1.evaluate(TestRuleSetupTeardownChained.java:48)
+	at org.apache.lucene.tests.util.AbstractBeforeAfterRule$1.evaluate(AbstractBeforeAfterRule.java:43)
+	at org.apache.lucene.tests.util.TestRuleThreadAndTestName$1.evaluate(TestRuleThreadAndTestName.java:45)
+	at org.apache.lucene.tests.util.TestRuleIgnoreAfterMaxFailures$1.evaluate(TestRuleIgnoreAfterMaxFailures.java:60)
+	at org.apache.lucene.tests.util.TestRuleMarkFailure$1.evaluate(TestRuleMarkFailure.java:44)
+	at org.junit.rules.RunRules.evaluate(RunRules.java:20)
+	at com.carrotsearch.randomizedtesting.rules.StatementAdapter.evaluate(StatementAdapter.java:36)
+	at com.carrotsearch.randomizedtesting.ThreadLeakControl$StatementRunner.run(ThreadLeakControl.java:390)
+	at com.carrotsearch.randomizedtesting.ThreadLeakControl.forkTimeoutingTask(ThreadLeakControl.java:843)
+	at com.carrotsearch.randomizedtesting.ThreadLeakControl$3.evaluate(ThreadLeakControl.java:490)
+	at com.carrotsearch.randomizedtesting.RandomizedRunner.runSingleTest(RandomizedRunner.java:955)
+	at com.carrotsearch.randomizedtesting.RandomizedRunner$5.evaluate(RandomizedRunner.java:840)
+	at com.carrotsearch.randomizedtesting.RandomizedRunner$6.evaluate(RandomizedRunner.java:891)
 	at com.carrotsearch.randomizedtesting.RandomizedRunner$7.evaluate(RandomizedRunner.java:902)
 	at com.carrotsearch.randomizedtesting.rules.StatementAdapter.evaluate(StatementAdapter.java:36)
 	at com.carrotsearch.randomizedtesting.rules.StatementAdapter.evaluate(StatementAdapter.java:36)
@@ -33,8 +71,74 @@ java.lang.NoClassDefFoundError: Could not initialize class org.apache.solr.util.
 	at com.carrotsearch.randomizedtesting.ThreadLeakControl$StatementRunner.run(ThreadLeakControl.java:390)
 	at com.carrotsearch.randomizedtesting.ThreadLeakControl.lambda$forkTimeoutingTask$0(ThreadLeakControl.java:850)
 	at java.base/java.lang.Thread.run(Thread.java:1583)
-Caused by: java.lang.ExceptionInInitializerError: Exception org.apache.solr.common.SolrException: Failed to determine source home [in thread "SUITE-TestSimplePropertiesWriter-seed#[B6A78D38A7337E0E]-worker"]
-	at org.apache.solr.util.ExternalPaths.determineSourceHome(ExternalPaths.java:92)
-	at org.apache.solr.util.ExternalPaths.<clinit>(ExternalPaths.java:40)
-	... 28 more
+
+org.apache.solr.handler.dataimport.TestContentStreamDataSource.testSimple -- Time elapsed: 0.184 s <<< ERROR!
+org.apache.solr.client.solrj.RemoteSolrException: 
+Error from server at http://127.0.0.1:35687/solr/solr/collection1: Expected mime type in [application/octet-stream, application/vnd.apache.solr.javabin] but got text/html. <html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1"/>
+<title>Error 404 Can not find: /solr/solr/collection1/dataimport</title>
+</head>
+<body>
+<h2>HTTP ERROR 404 Can not find: /solr/solr/collection1/dataimport</h2>
+<table>
+<tr><th>URI:</th><td>http://127.0.0.1:35687/solr/solr/collection1/dataimport?command=full-import&amp;clean=false&amp;wt=javabin</td></tr>
+<tr><th>STATUS:</th><td>404</td></tr>
+<tr><th>MESSAGE:</th><td>Can not find: /solr/solr/collection1/dataimport</td></tr>
+</table>
+<hr/><a href="https://jetty.org/">Powered by Jetty:// 12.0.27</a><hr/>
+
+</body>
+</html>
+
+	at __randomizedtesting.SeedInfo.seed([AD1B9634EF3FB79F:95A8B2CAC8CC634E]:0)
+	at org.apache.solr.client.solrj.apache.HttpSolrClient.executeMethod(HttpSolrClient.java:654)
+	at org.apache.solr.client.solrj.apache.HttpSolrClient.request(HttpSolrClient.java:254)
+	at org.apache.solr.client.solrj.apache.HttpSolrClient.request(HttpSolrClient.java:233)
+	at org.apache.solr.client.solrj.SolrClient.request(SolrClient.java:1195)
+	at org.apache.solr.handler.dataimport.TestContentStreamDataSource.testSimple(TestContentStreamDataSource.java:84)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at com.carrotsearch.randomizedtesting.RandomizedRunner.invoke(RandomizedRunner.java:1763)
+	at com.carrotsearch.randomizedtesting.RandomizedRunner$8.evaluate(RandomizedRunner.java:946)
+	at com.carrotsearch.randomizedtesting.RandomizedRunner$9.evaluate(RandomizedRunner.java:982)
+	at com.carrotsearch.randomizedtesting.RandomizedRunner$10.evaluate(RandomizedRunner.java:996)
+	at com.carrotsearch.randomizedtesting.rules.SystemPropertiesRestoreRule$1.evaluate(SystemPropertiesRestoreRule.java:80)
+	at org.junit.rules.RunRules.evaluate(RunRules.java:20)
+	at org.apache.lucene.tests.util.TestRuleSetupTeardownChained$1.evaluate(TestRuleSetupTeardownChained.java:48)
+	at org.apache.lucene.tests.util.AbstractBeforeAfterRule$1.evaluate(AbstractBeforeAfterRule.java:43)
+	at org.apache.lucene.tests.util.TestRuleThreadAndTestName$1.evaluate(TestRuleThreadAndTestName.java:45)
+	at org.apache.lucene.tests.util.TestRuleIgnoreAfterMaxFailures$1.evaluate(TestRuleIgnoreAfterMaxFailures.java:60)
+	at org.apache.lucene.tests.util.TestRuleMarkFailure$1.evaluate(TestRuleMarkFailure.java:44)
+	at org.junit.rules.RunRules.evaluate(RunRules.java:20)
+	at com.carrotsearch.randomizedtesting.rules.StatementAdapter.evaluate(StatementAdapter.java:36)
+	at com.carrotsearch.randomizedtesting.ThreadLeakControl$StatementRunner.run(ThreadLeakControl.java:390)
+	at com.carrotsearch.randomizedtesting.ThreadLeakControl.forkTimeoutingTask(ThreadLeakControl.java:843)
+	at com.carrotsearch.randomizedtesting.ThreadLeakControl$3.evaluate(ThreadLeakControl.java:490)
+	at com.carrotsearch.randomizedtesting.RandomizedRunner.runSingleTest(RandomizedRunner.java:955)
+	at com.carrotsearch.randomizedtesting.RandomizedRunner$5.evaluate(RandomizedRunner.java:840)
+	at com.carrotsearch.randomizedtesting.RandomizedRunner$6.evaluate(RandomizedRunner.java:891)
+	at com.carrotsearch.randomizedtesting.RandomizedRunner$7.evaluate(RandomizedRunner.java:902)
+	at com.carrotsearch.randomizedtesting.rules.StatementAdapter.evaluate(StatementAdapter.java:36)
+	at com.carrotsearch.randomizedtesting.rules.StatementAdapter.evaluate(StatementAdapter.java:36)
+	at org.apache.lucene.tests.util.AbstractBeforeAfterRule$1.evaluate(AbstractBeforeAfterRule.java:43)
+	at com.carrotsearch.randomizedtesting.rules.SystemPropertiesRestoreRule$1.evaluate(SystemPropertiesRestoreRule.java:80)
+	at org.junit.rules.RunRules.evaluate(RunRules.java:20)
+	at org.apache.lucene.tests.util.AbstractBeforeAfterRule$1.evaluate(AbstractBeforeAfterRule.java:43)
+	at com.carrotsearch.randomizedtesting.rules.StatementAdapter.evaluate(StatementAdapter.java:36)
+	at org.apache.lucene.tests.util.TestRuleStoreClassName$1.evaluate(TestRuleStoreClassName.java:38)
+	at com.carrotsearch.randomizedtesting.rules.NoShadowingOrOverridesOnMethodsRule$1.evaluate(NoShadowingOrOverridesOnMethodsRule.java:40)
+	at com.carrotsearch.randomizedtesting.rules.NoShadowingOrOverridesOnMethodsRule$1.evaluate(NoShadowingOrOverridesOnMethodsRule.java:40)
+	at com.carrotsearch.randomizedtesting.rules.StatementAdapter.evaluate(StatementAdapter.java:36)
+	at com.carrotsearch.randomizedtesting.rules.StatementAdapter.evaluate(StatementAdapter.java:36)
+	at org.apache.lucene.tests.util.TestRuleAssertionsRequired$1.evaluate(TestRuleAssertionsRequired.java:53)
+	at org.apache.lucene.tests.util.AbstractBeforeAfterRule$1.evaluate(AbstractBeforeAfterRule.java:43)
+	at org.apache.lucene.tests.util.TestRuleMarkFailure$1.evaluate(TestRuleMarkFailure.java:44)
+	at org.apache.lucene.tests.util.TestRuleIgnoreAfterMaxFailures$1.evaluate(TestRuleIgnoreAfterMaxFailures.java:60)
+	at org.apache.lucene.tests.util.TestRuleIgnoreTestSuites$1.evaluate(TestRuleIgnoreTestSuites.java:47)
+	at org.junit.rules.RunRules.evaluate(RunRules.java:20)
+	at com.carrotsearch.randomizedtesting.rules.StatementAdapter.evaluate(StatementAdapter.java:36)
+	at com.carrotsearch.randomizedtesting.ThreadLeakControl$StatementRunner.run(ThreadLeakControl.java:390)
+	at com.carrotsearch.randomizedtesting.ThreadLeakControl.lambda$forkTimeoutingTask$0(ThreadLeakControl.java:850)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
 

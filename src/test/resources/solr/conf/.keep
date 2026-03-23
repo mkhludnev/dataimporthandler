@@ -1,0 +1,3 @@
+# Stub file to allow ExternalPaths to locate the Solr source home via classloader resource.
+# ExternalPaths.determineSourceHome() looks for "solr/conf" as a classloader resource,
+# then walks up the directory tree looking for "solr/test-framework/build.gradle".

@@ -1,15 +1,35 @@
 -------------------------------------------------------------------------------
 Test set: org.apache.solr.handler.dataimport.TestXPathRecordReader
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.041 s <<< FAILURE! -- in org.apache.solr.handler.dataimport.TestXPathRecordReader
-org.apache.solr.handler.dataimport.TestXPathRecordReader -- Time elapsed: 0.035 s <<< ERROR!
-java.lang.NoClassDefFoundError: Could not initialize class org.apache.solr.util.ExternalPaths
-	at __randomizedtesting.SeedInfo.seed([7C55C8E95895E39C]:0)
-	at org.apache.solr.SolrTestCase.beforeSolrTestCase(SolrTestCase.java:135)
+Tests run: 22, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.132 s <<< FAILURE! -- in org.apache.solr.handler.dataimport.TestXPathRecordReader
+org.apache.solr.handler.dataimport.TestXPathRecordReader.testError -- Time elapsed: 0.012 s <<< FAILURE!
+java.lang.AssertionError
+	at __randomizedtesting.SeedInfo.seed([8A80A1BA54FC97F9:39C0274DA416B281]:0)
+	at org.junit.Assert.fail(Assert.java:87)
+	at org.junit.Assert.assertTrue(Assert.java:42)
+	at org.junit.Assert.assertTrue(Assert.java:53)
+	at org.apache.solr.handler.dataimport.TestXPathRecordReader.testError(TestXPathRecordReader.java:588)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 	at com.carrotsearch.randomizedtesting.RandomizedRunner.invoke(RandomizedRunner.java:1763)
-	at com.carrotsearch.randomizedtesting.RandomizedRunner$6.evaluate(RandomizedRunner.java:886)
+	at com.carrotsearch.randomizedtesting.RandomizedRunner$8.evaluate(RandomizedRunner.java:946)
+	at com.carrotsearch.randomizedtesting.RandomizedRunner$9.evaluate(RandomizedRunner.java:982)
+	at com.carrotsearch.randomizedtesting.RandomizedRunner$10.evaluate(RandomizedRunner.java:996)
+	at com.carrotsearch.randomizedtesting.rules.SystemPropertiesRestoreRule$1.evaluate(SystemPropertiesRestoreRule.java:80)
+	at org.junit.rules.RunRules.evaluate(RunRules.java:20)
+	at org.apache.lucene.tests.util.TestRuleSetupTeardownChained$1.evaluate(TestRuleSetupTeardownChained.java:48)
+	at org.apache.lucene.tests.util.AbstractBeforeAfterRule$1.evaluate(AbstractBeforeAfterRule.java:43)
+	at org.apache.lucene.tests.util.TestRuleThreadAndTestName$1.evaluate(TestRuleThreadAndTestName.java:45)
+	at org.apache.lucene.tests.util.TestRuleIgnoreAfterMaxFailures$1.evaluate(TestRuleIgnoreAfterMaxFailures.java:60)
+	at org.apache.lucene.tests.util.TestRuleMarkFailure$1.evaluate(TestRuleMarkFailure.java:44)
+	at org.junit.rules.RunRules.evaluate(RunRules.java:20)
+	at com.carrotsearch.randomizedtesting.rules.StatementAdapter.evaluate(StatementAdapter.java:36)
+	at com.carrotsearch.randomizedtesting.ThreadLeakControl$StatementRunner.run(ThreadLeakControl.java:390)
+	at com.carrotsearch.randomizedtesting.ThreadLeakControl.forkTimeoutingTask(ThreadLeakControl.java:843)
+	at com.carrotsearch.randomizedtesting.ThreadLeakControl$3.evaluate(ThreadLeakControl.java:490)
+	at com.carrotsearch.randomizedtesting.RandomizedRunner.runSingleTest(RandomizedRunner.java:955)
+	at com.carrotsearch.randomizedtesting.RandomizedRunner$5.evaluate(RandomizedRunner.java:840)
+	at com.carrotsearch.randomizedtesting.RandomizedRunner$6.evaluate(RandomizedRunner.java:891)
 	at com.carrotsearch.randomizedtesting.RandomizedRunner$7.evaluate(RandomizedRunner.java:902)
 	at com.carrotsearch.randomizedtesting.rules.StatementAdapter.evaluate(StatementAdapter.java:36)
 	at com.carrotsearch.randomizedtesting.rules.StatementAdapter.evaluate(StatementAdapter.java:36)
@@ -33,8 +53,4 @@ java.lang.NoClassDefFoundError: Could not initialize class org.apache.solr.util.
 	at com.carrotsearch.randomizedtesting.ThreadLeakControl$StatementRunner.run(ThreadLeakControl.java:390)
 	at com.carrotsearch.randomizedtesting.ThreadLeakControl.lambda$forkTimeoutingTask$0(ThreadLeakControl.java:850)
 	at java.base/java.lang.Thread.run(Thread.java:1583)
-Caused by: java.lang.ExceptionInInitializerError: Exception org.apache.solr.common.SolrException: Failed to determine source home [in thread "SUITE-TestSimplePropertiesWriter-seed#[B6A78D38A7337E0E]-worker"]
-	at org.apache.solr.util.ExternalPaths.determineSourceHome(ExternalPaths.java:92)
-	at org.apache.solr.util.ExternalPaths.<clinit>(ExternalPaths.java:40)
-	... 28 more
 

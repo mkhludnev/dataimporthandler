@@ -1,0 +1,2 @@
+# Stub file. ExternalPaths.determineSourceHome() walks up from the "solr/conf" classloader
+# resource location looking for this file to determine SOURCE_HOME.
