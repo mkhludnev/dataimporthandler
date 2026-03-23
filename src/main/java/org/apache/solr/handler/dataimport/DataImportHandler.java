@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.opentelemetry.api.common.Attributes;
 import org.apache.solr.common.SolrException;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.params.CommonParams;
@@ -35,7 +36,6 @@ import org.apache.solr.common.util.StrUtils;
 import org.apache.solr.core.SolrCore;
 import org.apache.solr.core.SolrResourceLoader;
 import org.apache.solr.handler.RequestHandlerBase;
-import org.apache.solr.metrics.MetricsMap;
 import org.apache.solr.metrics.SolrMetricsContext;
 import org.apache.solr.request.SolrQueryRequest;
 import org.apache.solr.response.RawResponseWriter;
@@ -76,8 +76,6 @@ public class DataImportHandler extends RequestHandlerBase implements
   private boolean debugEnabled = true;
 
   private String myName = "dataimport";
-
-  private MetricsMap metrics;
 
   private static final String PARAM_WRITER_IMPL = "writerImpl";
   private static final String DEFAULT_WRITER_NAME = "SolrWriter";
@@ -280,31 +278,9 @@ public class DataImportHandler extends RequestHandlerBase implements
   }
 
   @Override
-  public void initializeMetrics(SolrMetricsContext parentContext, String scope) {
-    super.initializeMetrics(parentContext, scope);
-    metrics = new MetricsMap((map) -> {
-      if (importer != null) {
-        DocBuilder.Statistics cumulative = importer.cumulativeStatistics;
-
-        map.put("Status", importer.getStatus().toString());
-
-        if (importer.docBuilder != null) {
-          DocBuilder.Statistics running = importer.docBuilder.importStatistics;
-          map.put("Documents Processed", running.docCount);
-          map.put("Requests made to DataSource", running.queryCount);
-          map.put("Rows Fetched", running.rowsCount);
-          map.put("Documents Deleted", running.deletedDocCount);
-          map.put("Documents Skipped", running.skipDocCount);
-        }
-
-        map.put(DataImporter.MSG.TOTAL_DOC_PROCESSED, cumulative.docCount);
-        map.put(DataImporter.MSG.TOTAL_QUERIES_EXECUTED, cumulative.queryCount);
-        map.put(DataImporter.MSG.TOTAL_ROWS_EXECUTED, cumulative.rowsCount);
-        map.put(DataImporter.MSG.TOTAL_DOCS_DELETED, cumulative.deletedDocCount);
-        map.put(DataImporter.MSG.TOTAL_DOCS_SKIPPED, cumulative.skipDocCount);
-      }
-    });
-    solrMetricsContext.gauge(metrics, true, "importer", getCategory().toString(), scope);
+  public void initializeMetrics(SolrMetricsContext parentContext, Attributes attributes) {
+    super.initializeMetrics(parentContext, attributes);
+    // DIH statistics are exposed via statusMessages in the response; no separate OTel gauges needed.
   }
 
   // //////////////////////SolrInfoMBeans methods //////////////////////

@@ -57,8 +57,8 @@ public abstract class AbstractDataImportHandlerTestCase extends
   // note, a little twisted that we shadow this static method
   public static void initCore(String config, String schema) throws Exception {
     File testHome = createTempDir("core-home").toFile();
-    FileUtils.copyDirectory(getFile("dih/solr"), testHome);
-    initCore(config, schema, testHome.getAbsolutePath());
+    FileUtils.copyDirectory(getFile("dih/solr").toFile(), testHome);
+    initCore(config, schema, testHome.toPath());
   }
 
   @BeforeClass

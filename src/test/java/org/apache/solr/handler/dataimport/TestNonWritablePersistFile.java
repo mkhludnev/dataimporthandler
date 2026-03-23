@@ -17,6 +17,7 @@
 package org.apache.solr.handler.dataimport;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,12 +56,12 @@ public class TestNonWritablePersistFile extends AbstractDataImportHandlerTestCas
   @BeforeClass
   public static void createTempSolrHomeAndCore() throws Exception {
     tmpSolrHome = createTempDir().toFile().getAbsolutePath();
-    FileUtils.copyDirectory(getFile("dih/solr"), new File(tmpSolrHome).getAbsoluteFile());
+    FileUtils.copyDirectory(getFile("dih/solr").toFile(), new File(tmpSolrHome).getAbsoluteFile());
     initCore("dataimport-solrconfig.xml", "dataimport-schema.xml", 
-             new File(tmpSolrHome).getAbsolutePath());
+             Path.of(tmpSolrHome));
     
     // See SOLR-2551
-    String configDir = h.getCore().getResourceLoader().getConfigDir();
+    String configDir = h.getCore().getResourceLoader().getConfigPath().toString();
     String filePath = configDir;
     if (configDir != null && !configDir.endsWith(File.separator))
       filePath += File.separator;

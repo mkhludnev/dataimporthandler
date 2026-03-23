@@ -18,7 +18,7 @@ package org.apache.solr.handler.dataimport;
 
 import java.util.*;
 
-import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.request.SolrQuery;
 import org.apache.solr.common.params.CommonParams;
 import org.apache.solr.common.params.CursorMarkParams;
 import org.apache.solr.handler.dataimport.SolrEntityProcessor.SolrDocumentListIterator;
