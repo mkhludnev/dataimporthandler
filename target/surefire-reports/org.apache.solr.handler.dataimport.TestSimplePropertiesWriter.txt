@@ -1,10 +1,10 @@
 -------------------------------------------------------------------------------
-Test set: org.apache.solr.handler.dataimport.TestRegexTransformer
+Test set: org.apache.solr.handler.dataimport.TestSimplePropertiesWriter
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.015 s <<< FAILURE! -- in org.apache.solr.handler.dataimport.TestRegexTransformer
-org.apache.solr.handler.dataimport.TestRegexTransformer -- Time elapsed: 0.013 s <<< ERROR!
-java.lang.NoClassDefFoundError: Could not initialize class org.apache.solr.util.ExternalPaths
-	at __randomizedtesting.SeedInfo.seed([AE070D6143C1C553]:0)
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 1.364 s <<< FAILURE! -- in org.apache.solr.handler.dataimport.TestSimplePropertiesWriter
+org.apache.solr.handler.dataimport.TestSimplePropertiesWriter -- Time elapsed: 1.324 s <<< ERROR!
+java.lang.ExceptionInInitializerError
+	at __randomizedtesting.SeedInfo.seed([B6A78D38A7337E0E]:0)
 	at org.apache.solr.SolrTestCase.beforeSolrTestCase(SolrTestCase.java:135)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
@@ -33,8 +33,11 @@ java.lang.NoClassDefFoundError: Could not initialize class org.apache.solr.util.
 	at com.carrotsearch.randomizedtesting.ThreadLeakControl$StatementRunner.run(ThreadLeakControl.java:390)
 	at com.carrotsearch.randomizedtesting.ThreadLeakControl.lambda$forkTimeoutingTask$0(ThreadLeakControl.java:850)
 	at java.base/java.lang.Thread.run(Thread.java:1583)
-Caused by: java.lang.ExceptionInInitializerError: Exception org.apache.solr.common.SolrException: Failed to determine source home [in thread "SUITE-TestSimplePropertiesWriter-seed#[B6A78D38A7337E0E]-worker"]
+Caused by: org.apache.solr.common.SolrException: Failed to determine source home
 	at org.apache.solr.util.ExternalPaths.determineSourceHome(ExternalPaths.java:92)
 	at org.apache.solr.util.ExternalPaths.<clinit>(ExternalPaths.java:40)
 	... 28 more
+Caused by: java.lang.NullPointerException: Cannot invoke "java.nio.file.Path.resolve(String)" because "base" is null
+	at org.apache.solr.util.ExternalPaths.determineSourceHome(ExternalPaths.java:86)
+	... 29 more
 

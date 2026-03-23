@@ -1,10 +1,10 @@
 -------------------------------------------------------------------------------
-Test set: org.apache.solr.handler.dataimport.TestRegexTransformer
+Test set: org.apache.solr.handler.dataimport.TestVariableResolverEndToEnd
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.015 s <<< FAILURE! -- in org.apache.solr.handler.dataimport.TestRegexTransformer
-org.apache.solr.handler.dataimport.TestRegexTransformer -- Time elapsed: 0.013 s <<< ERROR!
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.023 s <<< FAILURE! -- in org.apache.solr.handler.dataimport.TestVariableResolverEndToEnd
+org.apache.solr.handler.dataimport.TestVariableResolverEndToEnd -- Time elapsed: 0.021 s <<< ERROR!
 java.lang.NoClassDefFoundError: Could not initialize class org.apache.solr.util.ExternalPaths
-	at __randomizedtesting.SeedInfo.seed([AE070D6143C1C553]:0)
+	at __randomizedtesting.SeedInfo.seed([F62CFED9F0A8D51F]:0)
 	at org.apache.solr.SolrTestCase.beforeSolrTestCase(SolrTestCase.java:135)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
