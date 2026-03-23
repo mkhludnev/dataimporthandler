@@ -66,12 +66,12 @@ public class ZKPropertiesWriter extends SimplePropertiesWriter {
     try {
       existing.store(output, null);
       byte[] bytes = output.toString().getBytes(StandardCharsets.UTF_8);
-      if (!zkClient.exists(path, false)) {
+      if (!zkClient.exists(path)) {
         try {
           zkClient.makePath(path, false);
         } catch (NodeExistsException e) {}
       }
-      zkClient.setData(path, bytes, false);
+      zkClient.setData(path, bytes);
     } catch (Exception e) {
       SolrZkClient.checkInterrupted(e);
       log.warn("Could not persist properties to " + path + " :" + e.getClass(), e);
@@ -82,7 +82,7 @@ public class ZKPropertiesWriter extends SimplePropertiesWriter {
   public Map<String, Object> readIndexerProperties() {
     Properties props = new Properties();
     try {
-      byte[] data = zkClient.getData(path, null, null, true);
+      byte[] data = zkClient.getData(path, null, null);
       if (data != null) {
         props.load(new StringReader(new String(data, StandardCharsets.UTF_8)));
       }

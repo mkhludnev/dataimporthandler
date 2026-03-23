@@ -28,14 +28,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.http.client.HttpClient;
 import org.apache.solr.client.solrj.SolrClient;
-import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.request.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.impl.HttpClientUtil;
-import org.apache.solr.client.solrj.impl.HttpSolrClient;
-import org.apache.solr.client.solrj.impl.HttpSolrClient.Builder;
-import org.apache.solr.client.solrj.impl.XMLResponseParser;
+import org.apache.solr.client.solrj.impl.HttpJdkSolrClient;
+import org.apache.solr.client.solrj.response.XMLResponseParser;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
@@ -81,21 +78,8 @@ public class SolrEntityProcessor extends EntityProcessorBase {
     try {
       solrClient.close();
     } catch (IOException e) {
-
-    } finally {
-      HttpClientUtil.close(((HttpSolrClient) solrClient).getHttpClient());
+      // ignore
     }
-  }
-
-  /**
-   * Factory method that returns a {@link HttpClient} instance used for interfacing with a source Solr service.
-   * One can override this method to return a differently configured {@link HttpClient} instance.
-   * For example configure https and http authentication.
-   *
-   * @return a {@link HttpClient} instance used for interfacing with a source Solr service
-   */
-  protected HttpClient getHttpClient() {
-    return HttpClientUtil.createClient(null);
   }
 
   @Override
@@ -109,20 +93,15 @@ public class SolrEntityProcessor extends EntityProcessorBase {
             "SolrEntityProcessor: parameter 'url' is required");
       }
 
-      HttpClient client = getHttpClient();
       URL url = new URL(serverPath);
       // (wt="javabin|xml") default is javabin
       if ("xml".equals(context.getResolvedEntityAttribute(CommonParams.WT))) {
-        // TODO: it doesn't matter for this impl when passing a client currently, but we should close this!
-        solrClient = new Builder(url.toExternalForm())
-            .withHttpClient(client)
+        solrClient = new HttpJdkSolrClient.Builder(url.toExternalForm())
             .withResponseParser(new XMLResponseParser())
             .build();
         log.info("using XMLResponseParser");
       } else {
-        // TODO: it doesn't matter for this impl when passing a client currently, but we should close this!
-        solrClient = new Builder(url.toExternalForm())
-            .withHttpClient(client)
+        solrClient = new HttpJdkSolrClient.Builder(url.toExternalForm())
             .build();
         log.info("using BinaryResponseParser");
       }

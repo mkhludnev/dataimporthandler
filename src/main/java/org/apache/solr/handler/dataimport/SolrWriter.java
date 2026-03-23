@@ -67,7 +67,7 @@ public class SolrWriter extends DIHWriterBase implements DIHWriter {
       try {
         processor.close();
       } catch (IOException e) {
-        SolrException.log(log, e);
+        log.error("Exception while committing", e);
       }
     }
   }
