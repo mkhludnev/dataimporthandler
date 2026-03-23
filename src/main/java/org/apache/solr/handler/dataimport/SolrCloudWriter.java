@@ -16,7 +16,7 @@
  */
 package org.apache.solr.handler.dataimport;
 
-import org.apache.solr.client.solrj.impl.Http2SolrClient;
+import org.apache.solr.client.solrj.jetty.HttpJettySolrClient;
 import org.apache.solr.client.solrj.request.AbstractUpdateRequest;
 import org.apache.solr.client.solrj.request.UpdateRequest;
 import org.apache.solr.cloud.ZkController;
@@ -47,7 +47,7 @@ public class SolrCloudWriter extends SolrWriter { //not sure about ascendant
   private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
   public static final String DST_COLL_PARAM = "destinationCollection";
-  private final Http2SolrClient updateClient;
+  private final HttpJettySolrClient updateClient;
   private final String destColl;
   private final DocCollection destDocColl;
   private final SolrCmdDistributor solrCmdDistributor;

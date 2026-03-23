@@ -24,9 +24,6 @@ import org.apache.solr.handler.dataimport.DIHCacheSupport.Relation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.Iterators;
-import com.google.common.collect.PeekingIterator;
-
 class Zipper {
   
   private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -38,7 +35,40 @@ class Zipper {
   private Comparable lastChildId;
   
   private Iterator<Map<String,Object>> rowIterator;
-  private PeekingIterator<Map<String,Object>> peeker;
+  private PeekingIterator peeker;
+
+  /** Minimal peeking iterator to avoid Guava dependency. */
+  private static final class PeekingIterator {
+    private final Iterator<Map<String,Object>> delegate;
+    private Map<String,Object> peeked;
+    private boolean hasPeeked;
+
+    PeekingIterator(Iterator<Map<String,Object>> delegate) {
+      this.delegate = delegate;
+    }
+
+    boolean hasNext() {
+      return hasPeeked || delegate.hasNext();
+    }
+
+    Map<String,Object> peek() {
+      if (!hasPeeked) {
+        peeked = delegate.next();
+        hasPeeked = true;
+      }
+      return peeked;
+    }
+
+    Map<String,Object> next() {
+      if (!hasPeeked) {
+        return delegate.next();
+      }
+      Map<String,Object> result = peeked;
+      peeked = null;
+      hasPeeked = false;
+      return result;
+    }
+  }
   
   /** @return initialized zipper or null */
   public static Zipper createOrNull(Context context){
@@ -94,7 +124,7 @@ class Zipper {
   private void preparePeeker(Iterator<Map<String,Object>> rowIterator) {
     if(this.rowIterator==null){
       this.rowIterator = rowIterator;
-      peeker = Iterators.peekingIterator(rowIterator);
+      peeker = new PeekingIterator(rowIterator);
     }else{
       assert this.rowIterator==rowIterator: "rowIterator should never change but "+this.rowIterator+
           " supplied before has been changed to "+rowIterator; 
