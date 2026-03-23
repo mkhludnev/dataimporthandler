@@ -4,16 +4,322 @@
     "description": "A utility to import documents from a database system into Apache Solr",
     "versions": [
       {
+        "version": "9.9.0",
+        "date": "2025-08-22",
+        "artifacts": [
+          {
+            "url": "https://github.com/mkhludnev/dataimporthandler/releases/download/9.9.0-unoff-release/data-import-handler-9.9.0.jar",
+            "sig": "igPANmcDyT031B+SCXD0i3xHOhNxRuI2dCgS3yhxYuU97CnXYh6ZTChpjOxwzKh4t1NN2OorL31IyZC7G5kju5jQcBVS8Z01+Qsod24xQfk22vXNk3PmDBKUyjMrk1dmReCVvBtGFkCynHtsYbvCJ9xFOJOccPHuG/KhzIeO2sp/TGVVbKSEnsf568iUVLs446yDVL8S6qCd4h88ePuaELMkNm3+jn9TNnwXeUX7Zwi6kRrGXpooY7Mo8yX0QbIDDAKAqQWXpn661dcpXrTXSgYBPUnwHROBHK3nrmBSb+BWfAZtp3FV4q1yZNf4BwpnfZhAGEXqzirYj0B61sXqhw=="
+          },
+          {
+            "url": "mariadb-java-client-2.6.0.jar",
+            "sig": "diGD3TU/lfXB1EUhMMFhtNI6tb7UjLElqDadls/K8YbXXDri5W79/jEuAEESM3EICr0AFTwgMSVYDxJMhtvueZ5zkrflH2U3R4XBq6uUj9niDyW6uzcLtHH1QcT4u/99KH1Rt3a1aIbd8xz4fb/hY6wv8V0jNtQzB9zEdDl6KZP0ST+4NWrg9sfSHVGksNGOFI4FrslNrLFrqRNxEc/Dnvtx+ZzyW3CoEOxcalkE9n3mmWChRE9ZfjAx2cFFVNgs4e6ulxIWBU3fJRtoP9meizb4R8Z4XglrP7+5ZXuAEMpqWm3DTOlYRT9djvwiLkcFldPjD85m6Hfpyd1Rb6NwZg=="
+          }
+        ],
+        "manifest": {
+          "version-constraint": "9.9.0 - 10.9.99",
+          "plugins": [
+            {
+              "name": "request-handler",
+              "setup-command": {
+                "path": "/api/collections/${collection}/config",
+                "payload": {
+                  "add-requesthandler": {
+                    "name": "${RH-HANDLER-PATH}",
+                    "class": "data-import-handler:org.apache.solr.handler.dataimport.DataImportHandler",
+                    "defaults": {
+                      "config": "data-config.xml"
+                    }
+                  }
+                },
+                "method": "POST"
+              },
+              "uninstall-command": {
+                "path": "/api/collections/${collection}/config",
+                "payload": {
+                  "delete-requesthandler": "${RH-HANDLER-PATH}"
+                },
+                "method": "POST"
+              },
+              "verify-command": {
+                "path": "/api/collections/${collection}/config/requestHandler?componentName=${RH-HANDLER-PATH}&meta=true",
+                "method": "GET",
+                "condition": "$['config'].['requestHandler'].['${RH-HANDLER-PATH}'].['_packageinfo_'].['version']",
+                "expected": "${package-version}"
+              }
+            }
+          ],
+          "parameter-defaults": {
+            "RH-HANDLER-PATH": "/dataimport"
+          }
+        }
+      },
+      {
+        "version": "9.8.0",
+        "date": "2025-08-22",
+        "artifacts": [
+          {
+            "url": "https://github.com/mkhludnev/dataimporthandler/releases/download/9.8.0-unoff-mkhl/data-import-handler-9.8.0.jar",
+            "sig": "bHa2LjN6rhLId+hY8PWglTY1PstcyFzd7H0/SgUvxecud2lB7dK6WFRoTwyPK8Tg+nUB+mhdYCqbH6PB7BlfCap17ns5TCjcXuHkbDV5kg1fnrPqOY0kRq+7j3K60sNYHBTBe2l98GkwmXWra7xclVJqCR1hL1Fn2dlzFA3fcEqNoKscoA+nnThruqC7AnmfHZBechyU9dR1Ll8wZgNZSEmWr+20ZYKTPwVtecK6HpulZ8vQfNB3KlFEzT50I8O4KI87jinOBZ0LpyAOVnTtZ6HyTvTudcDcC0mIWwrLgYuRX0YZdjTVA4Z5DZ6+8h2dwUwE4R4YeT44OUUjDTvcIQ=="
+          },
+          {
+            "url": "mariadb-java-client-2.6.0.jar",
+            "sig": "diGD3TU/lfXB1EUhMMFhtNI6tb7UjLElqDadls/K8YbXXDri5W79/jEuAEESM3EICr0AFTwgMSVYDxJMhtvueZ5zkrflH2U3R4XBq6uUj9niDyW6uzcLtHH1QcT4u/99KH1Rt3a1aIbd8xz4fb/hY6wv8V0jNtQzB9zEdDl6KZP0ST+4NWrg9sfSHVGksNGOFI4FrslNrLFrqRNxEc/Dnvtx+ZzyW3CoEOxcalkE9n3mmWChRE9ZfjAx2cFFVNgs4e6ulxIWBU3fJRtoP9meizb4R8Z4XglrP7+5ZXuAEMpqWm3DTOlYRT9djvwiLkcFldPjD85m6Hfpyd1Rb6NwZg=="
+          }
+        ],
+        "manifest": {
+          "version-constraint": "9.8.0 - 9.8.99",
+          "plugins": [
+            {
+              "name": "request-handler",
+              "setup-command": {
+                "path": "/api/collections/${collection}/config",
+                "payload": {
+                  "add-requesthandler": {
+                    "name": "${RH-HANDLER-PATH}",
+                    "class": "data-import-handler:org.apache.solr.handler.dataimport.DataImportHandler",
+                    "defaults": {
+                      "config": "data-config.xml"
+                    }
+                  }
+                },
+                "method": "POST"
+              },
+              "uninstall-command": {
+                "path": "/api/collections/${collection}/config",
+                "payload": {
+                  "delete-requesthandler": "${RH-HANDLER-PATH}"
+                },
+                "method": "POST"
+              },
+              "verify-command": {
+                "path": "/api/collections/${collection}/config/requestHandler?componentName=${RH-HANDLER-PATH}&meta=true",
+                "method": "GET",
+                "condition": "$['config'].['requestHandler'].['${RH-HANDLER-PATH}'].['_packageinfo_'].['version']",
+                "expected": "${package-version}"
+              }
+            }
+          ],
+          "parameter-defaults": {
+            "RH-HANDLER-PATH": "/dataimport"
+          }
+        }
+      },
+      {
+        "version": "9.7.0",
+        "date": "2024-12-02",
+        "artifacts": [
+          {
+            "url": "https://github.com/SearchScale/dataimporthandler/releases/download/v9.7.0/data-import-handler-9.7.0.jar",
+            "sig": "hyt4BHeiX70X/H45povRcg2HfFcYYom82ycxSSyk/A05lTZoPV/9H3JJ6qnBW+ly84PzX2QCQMIP+blh8GOtGIOifWhDFR7nGZ42nonmfGCg3M0TJXWkc6zvtb5UcV7rqftPwsd0GQ8e5sK/hHQ0lzhruoMSHWqpIc3pZxjxcKI13RF56XTR9j0WSCnbZG8UW/sAnzYzNHx+aCFa3Glo+VvllRQ/4xICYOu1qShwfCE3HMCkbp7vA1LqGowDxWpxl8s20Prcx3GZOKwzpPJj27Ic+rwooltKxZT9B6Ns7nO8JtDjRakZscGdh5t1BoAmzoK4NBgkxibD8lSL4Oa8YA=="
+          },
+          {
+            "url": "https://github.com/SearchScale/dataimporthandler/releases/download/v9.7.0/mariadb-java-client-2.6.0.jar",
+            "sig": "diGD3TU/lfXB1EUhMMFhtNI6tb7UjLElqDadls/K8YbXXDri5W79/jEuAEESM3EICr0AFTwgMSVYDxJMhtvueZ5zkrflH2U3R4XBq6uUj9niDyW6uzcLtHH1QcT4u/99KH1Rt3a1aIbd8xz4fb/hY6wv8V0jNtQzB9zEdDl6KZP0ST+4NWrg9sfSHVGksNGOFI4FrslNrLFrqRNxEc/Dnvtx+ZzyW3CoEOxcalkE9n3mmWChRE9ZfjAx2cFFVNgs4e6ulxIWBU3fJRtoP9meizb4R8Z4XglrP7+5ZXuAEMpqWm3DTOlYRT9djvwiLkcFldPjD85m6Hfpyd1Rb6NwZg=="
+          }
+        ],
+        "manifest": {
+          "version-constraint": "9.7.0",
+          "plugins": [
+            {
+              "name": "request-handler",
+              "setup-command": {
+                "path": "/api/collections/${collection}/config",
+                "payload": {
+                  "add-requesthandler": {
+                    "name": "${RH-HANDLER-PATH}",
+                    "class": "data-import-handler:org.apache.solr.handler.dataimport.DataImportHandler",
+                    "defaults": {
+                      "config": "data-config.xml"
+                    }
+                  }
+                },
+                "method": "POST"
+              },
+              "uninstall-command": {
+                "path": "/api/collections/${collection}/config",
+                "payload": {
+                  "delete-requesthandler": "${RH-HANDLER-PATH}"
+                },
+                "method": "POST"
+              },
+              "verify-command": {
+                "path": "/api/collections/${collection}/config/requestHandler?componentName=${RH-HANDLER-PATH}&meta=true",
+                "method": "GET",
+                "condition": "$['config'].['requestHandler'].['${RH-HANDLER-PATH}'].['_packageinfo_'].['version']",
+                "expected": "${package-version}"
+              }
+            }
+          ],
+          "parameter-defaults": {
+            "RH-HANDLER-PATH": "/dataimport"
+          }
+        }
+      },
+      {
+        "version": "9.6.1",
+        "date": "2024-11-28",
+        "artifacts": [
+          {
+            "url": "https://github.com/SearchScale/dataimporthandler/releases/download/v9.6.1/data-import-handler-9.6.1.jar",
+            "sig": "NUzyu58urSGdM7wo8t9/gcfkiNaa6Lu8HDXpAkZYogZnuf/7c96vdwREX3i/83AlTPO60fGg30qFy9Yr4q1tUs+Z6UaLzbxTEfUXw4C1fzEMDsMjSyS0gNhP6lZwTruekoLVbXIXgwXfoEKj/OTGHs2xscYz8Xal2rt6ZQ+BYNHhepyBJdKbkvtp9E4ypQvQ3CExX2s3wcG2hlkAMkTNfxocTHy9MI2NuKEjI6YmbVU0QXUKB+jjfrsbDNyRcztCDjq9d6DWaqH6x5jqSxxsXp430Rg0QAI+jjY+cuV/lI3YxRbf5mMDSaMy8PG0bByfFqIUtdraRsZEX6VcC9/MkA=="
+          },
+          {
+            "url": "https://github.com/SearchScale/dataimporthandler/releases/download/v9.6.1/mariadb-java-client-2.6.0.jar",
+            "sig": "diGD3TU/lfXB1EUhMMFhtNI6tb7UjLElqDadls/K8YbXXDri5W79/jEuAEESM3EICr0AFTwgMSVYDxJMhtvueZ5zkrflH2U3R4XBq6uUj9niDyW6uzcLtHH1QcT4u/99KH1Rt3a1aIbd8xz4fb/hY6wv8V0jNtQzB9zEdDl6KZP0ST+4NWrg9sfSHVGksNGOFI4FrslNrLFrqRNxEc/Dnvtx+ZzyW3CoEOxcalkE9n3mmWChRE9ZfjAx2cFFVNgs4e6ulxIWBU3fJRtoP9meizb4R8Z4XglrP7+5ZXuAEMpqWm3DTOlYRT9djvwiLkcFldPjD85m6Hfpyd1Rb6NwZg=="
+          }
+        ],
+        "manifest": {
+          "version-constraint": "9.6.1",
+          "plugins": [
+            {
+              "name": "request-handler",
+              "setup-command": {
+                "path": "/api/collections/${collection}/config",
+                "payload": {
+                  "add-requesthandler": {
+                    "name": "${RH-HANDLER-PATH}",
+                    "class": "data-import-handler:org.apache.solr.handler.dataimport.DataImportHandler",
+                    "defaults": {
+                      "config": "data-config.xml"
+                    }
+                  }
+                },
+                "method": "POST"
+              },
+              "uninstall-command": {
+                "path": "/api/collections/${collection}/config",
+                "payload": {
+                  "delete-requesthandler": "${RH-HANDLER-PATH}"
+                },
+                "method": "POST"
+              },
+              "verify-command": {
+                "path": "/api/collections/${collection}/config/requestHandler?componentName=${RH-HANDLER-PATH}&meta=true",
+                "method": "GET",
+                "condition": "$['config'].['requestHandler'].['${RH-HANDLER-PATH}'].['_packageinfo_'].['version']",
+                "expected": "${package-version}"
+              }
+            }
+          ],
+          "parameter-defaults": {
+            "RH-HANDLER-PATH": "/dataimport"
+          }
+        }
+      },
+      {
+        "version": "9.4.0",
+        "date": "2023-10-16",
+        "artifacts": [
+          {
+            "url": "https://github.com/SearchScale/dataimporthandler/releases/download/v9.4.0/data-import-handler-9.4.0.jar",
+            "sig": "Vm+sZfGz9IEJLB7YWkjzBCu8XMwm+cHXUeIX8T9Wjl8I/lazroaI3ZC+Hw63iP2ySFpcYb1gZCNWIB0ZaVo5eQdfkjA9Qk5RHrp+Ugrb7tXKjiVOHkQjWnX9i0jiLFRfQFtYqXim+zNU9IfLdAPHArwFCLwN3m9LoQuRBQCiiYBzXNYhK1I4fRm4ZwzgyYHnNtBLom0vMq8IfJJ5veXKXNQqrDQkgJhtJHrUBf2Sg/9/lWbSkMy/O2W8G1wO1JsdyR6TKb0cPTzx1v1qP6arOsD68fWeeZivW2E7FVPdq1GBUUSQAz48VZQrR+RiQ/so78f8H/5v4KaWaIJXWKvAkw=="
+          },
+          {
+            "url": "https://github.com/SearchScale/dataimporthandler/releases/download/v9.4.0/mariadb-java-client-2.6.0.jar",
+            "sig": "diGD3TU/lfXB1EUhMMFhtNI6tb7UjLElqDadls/K8YbXXDri5W79/jEuAEESM3EICr0AFTwgMSVYDxJMhtvueZ5zkrflH2U3R4XBq6uUj9niDyW6uzcLtHH1QcT4u/99KH1Rt3a1aIbd8xz4fb/hY6wv8V0jNtQzB9zEdDl6KZP0ST+4NWrg9sfSHVGksNGOFI4FrslNrLFrqRNxEc/Dnvtx+ZzyW3CoEOxcalkE9n3mmWChRE9ZfjAx2cFFVNgs4e6ulxIWBU3fJRtoP9meizb4R8Z4XglrP7+5ZXuAEMpqWm3DTOlYRT9djvwiLkcFldPjD85m6Hfpyd1Rb6NwZg=="
+          }
+        ],
+        "manifest": {
+          "version-constraint": "9.4.0",
+          "plugins": [
+            {
+              "name": "request-handler",
+              "setup-command": {
+                "path": "/api/collections/${collection}/config",
+                "payload": {
+                  "add-requesthandler": {
+                    "name": "${RH-HANDLER-PATH}",
+                    "class": "data-import-handler:org.apache.solr.handler.dataimport.DataImportHandler",
+                    "defaults": {
+                      "config": "data-config.xml"
+                    }
+                  }
+                },
+                "method": "POST"
+              },
+              "uninstall-command": {
+                "path": "/api/collections/${collection}/config",
+                "payload": {
+                  "delete-requesthandler": "${RH-HANDLER-PATH}"
+                },
+                "method": "POST"
+              },
+              "verify-command": {
+                "path": "/api/collections/${collection}/config/requestHandler?componentName=${RH-HANDLER-PATH}&meta=true",
+                "method": "GET",
+                "condition": "$['config'].['requestHandler'].['${RH-HANDLER-PATH}'].['_packageinfo_'].['version']",
+                "expected": "${package-version}"
+              }
+            }
+          ],
+          "parameter-defaults": {
+            "RH-HANDLER-PATH": "/dataimport"
+          }
+        }
+      },
+      {
+        "version": "9.3.0",
+        "date": "2023-09-08",
+        "artifacts": [
+          {
+            "url": "https://github.com/SearchScale/dataimporthandler/releases/download/v9.3.0/data-import-handler-9.3.0.jar",
+            "sig": "Pk7TiGLUFloJrNfrvwCYdEptvxLZTN2gMFZPfmj3LzVnNHxeiNK0BVRdss/425zfqGRpHFDNR8mdaZnd3OYLy27yghyW5ShK6Vxyn3tYnKPOb642usC2aKTLumtxl+fXfOc/NQwxVAz55n2ij1BbnprmkBj3AmxF7G7IZb4a3kA8wwxbW0tn9zP4cEm8AExK9GcqlHQigeTqdoIR7zIxqvtroqdTUxTqhsbxlHTuPwnpXIUuJXXl3pS60jxJpCFcNcszBM4XGGSKA9P/tj17khl51tNpLQZr8r1zq8aSzdSfB8oX34H6jXtCdbZ5A3e8k2nCz5eEBMpGnRJnu1XtTA=="
+          },
+          {
+            "url": "https://github.com/SearchScale/dataimporthandler/releases/download/v9.3.0/mariadb-java-client-2.6.0.jar",
+            "sig": "diGD3TU/lfXB1EUhMMFhtNI6tb7UjLElqDadls/K8YbXXDri5W79/jEuAEESM3EICr0AFTwgMSVYDxJMhtvueZ5zkrflH2U3R4XBq6uUj9niDyW6uzcLtHH1QcT4u/99KH1Rt3a1aIbd8xz4fb/hY6wv8V0jNtQzB9zEdDl6KZP0ST+4NWrg9sfSHVGksNGOFI4FrslNrLFrqRNxEc/Dnvtx+ZzyW3CoEOxcalkE9n3mmWChRE9ZfjAx2cFFVNgs4e6ulxIWBU3fJRtoP9meizb4R8Z4XglrP7+5ZXuAEMpqWm3DTOlYRT9djvwiLkcFldPjD85m6Hfpyd1Rb6NwZg=="
+          }
+        ],
+        "manifest": {
+          "version-constraint": "9.3.0",
+          "plugins": [
+            {
+              "name": "request-handler",
+              "setup-command": {
+                "path": "/api/collections/${collection}/config",
+                "payload": {
+                  "add-requesthandler": {
+                    "name": "${RH-HANDLER-PATH}",
+                    "class": "data-import-handler:org.apache.solr.handler.dataimport.DataImportHandler",
+                    "defaults": {
+                      "config": "data-config.xml"
+                    }
+                  }
+                },
+                "method": "POST"
+              },
+              "uninstall-command": {
+                "path": "/api/collections/${collection}/config",
+                "payload": {
+                  "delete-requesthandler": "${RH-HANDLER-PATH}"
+                },
+                "method": "POST"
+              },
+              "verify-command": {
+                "path": "/api/collections/${collection}/config/requestHandler?componentName=${RH-HANDLER-PATH}&meta=true",
+                "method": "GET",
+                "condition": "$['config'].['requestHandler'].['${RH-HANDLER-PATH}'].['_packageinfo_'].['version']",
+                "expected": "${package-version}"
+              }
+            }
+          ],
+          "parameter-defaults": {
+            "RH-HANDLER-PATH": "/dataimport"
+          }
+        }
+      },
+      {
         "version": "9.2.1",
         "date": "2023-07-01",
         "artifacts": [
           {
             "url": "data-import-handler-9.2.1.jar",
-            "sig": "n55pNZzyIXng6PydHpzGUTcJQbfE1gVoZjhh3HjniMM7oRZmHasgOlqebu0hwTynexa2xo5VnOaBVsixRCEXGg=="
+            "sig": "EKIiRjtL8+bFeq7mEUxgTyS7RU69ar/0R2E7s8Zg2bgm84lWITnHlSTdIjnMGhCFzVgT/WcIwJYUzQCdHl/WFJzneJsPle2Y8kJO4nsb+ASx1HRW2QhGP/MPmhZhXtIpQDUZ4BtYY6hsgpdfL1OgSTrLy26pQ2fDN0aY00xDa8t/+YQPTVPAzikpzOs6ADyRy8fdr1yJqH+v7eswQtlT94wrQiMp8KF2jFwJE+VJJzGzm9S0Rs1W+/wpG61cEC0EeAcb6mAa1Ny/xzf4T5Si5Sp5GVoAKg4qUlqJn/uY2RivFAdQPb83i5R37uijGVCSt5E7pKVvUdiN3MGh0nOAkw=="
           },
           {
             "url": "mariadb-java-client-2.6.0.jar",
-            "sig": "SfYkFEkpqNfytOeGYNTSB0VD1sNLvTFQR9oCRv+e2y6GzawaZHBGo+9nKrZJ/4MUDVxQLfOiyaEJyQOI8Y+L7A=="
+            "sig": "diGD3TU/lfXB1EUhMMFhtNI6tb7UjLElqDadls/K8YbXXDri5W79/jEuAEESM3EICr0AFTwgMSVYDxJMhtvueZ5zkrflH2U3R4XBq6uUj9niDyW6uzcLtHH1QcT4u/99KH1Rt3a1aIbd8xz4fb/hY6wv8V0jNtQzB9zEdDl6KZP0ST+4NWrg9sfSHVGksNGOFI4FrslNrLFrqRNxEc/Dnvtx+ZzyW3CoEOxcalkE9n3mmWChRE9ZfjAx2cFFVNgs4e6ulxIWBU3fJRtoP9meizb4R8Z4XglrP7+5ZXuAEMpqWm3DTOlYRT9djvwiLkcFldPjD85m6Hfpyd1Rb6NwZg=="
           }
         ],
         "manifest": {
@@ -60,11 +366,11 @@
         "artifacts": [
           {
             "url": "data-import-handler-9.0.0.jar",
-            "sig": "S93ouzm7QcKL9OfrcoQLAy75VVVYJvFy1I9lzIRAOcpPX34n/Sn4Jx7xkNx6vLoBBNZpQXvn8SbWT0g2oVfUhA=="
+            "sig": "PfZtgFGzgFawybQr+24tvPKkEEFN8UN680FL696r6MSz8a81ZfWvK451kUDLvqxCj3rbJojU1OfEqPt3vGIp6OIkyM/pHFQwBAjaVqrhh9z67UYtVMnFEiLKm6ZITfzGf0uAUVmdXjIh47BHSckcNZFSgquqEJrebqeG4KSN1dD+6yCe9a6bkkAf3NdUI29BXlB1oyr4bnZCjnyeYEsKNjpwY0kGR8fTFQQrNKglKMBL2gihAR330rblkpTsXrhoXZzfx6Smay0iKCfGYd7wREF4jsgkq8Rf8gzdv4m3LJyAV7cX4L6vL20T2F+CCKXpHmX64CQ+81ZZGN4C0QQDhw=="
           },
           {
             "url": "mariadb-java-client-2.6.0.jar",
-            "sig": "SfYkFEkpqNfytOeGYNTSB0VD1sNLvTFQR9oCRv+e2y6GzawaZHBGo+9nKrZJ/4MUDVxQLfOiyaEJyQOI8Y+L7A=="
+            "sig": "diGD3TU/lfXB1EUhMMFhtNI6tb7UjLElqDadls/K8YbXXDri5W79/jEuAEESM3EICr0AFTwgMSVYDxJMhtvueZ5zkrflH2U3R4XBq6uUj9niDyW6uzcLtHH1QcT4u/99KH1Rt3a1aIbd8xz4fb/hY6wv8V0jNtQzB9zEdDl6KZP0ST+4NWrg9sfSHVGksNGOFI4FrslNrLFrqRNxEc/Dnvtx+ZzyW3CoEOxcalkE9n3mmWChRE9ZfjAx2cFFVNgs4e6ulxIWBU3fJRtoP9meizb4R8Z4XglrP7+5ZXuAEMpqWm3DTOlYRT9djvwiLkcFldPjD85m6Hfpyd1Rb6NwZg=="
           }
         ],
         "manifest": {
@@ -111,11 +417,11 @@
         "artifacts": [
           {
             "url": "data-import-handler-8.10.0.jar",
-            "sig": "ggich+cAREadydwCVHnf/HalMBVaYz9EIyqrBl1KUfcBQidsr5C9nbi0xVCH/foOTyPRzK66l7ImWQyayhz0NQ=="
+            "sig": "Ig8XSguhX2MbuUZ4ZTEuOwZbDSgCfAnKE+2bmg4h6rmj2Vapb7/gdatM5mB32XqHGWPx0lPSfGdk8VqLUcP0O6M9fNW+N6GDM3KIaMbvbjcQaFsPblt89NU18jkA9HxcGKuhsbXV4hiyO0LP0xN4JcrE9cVmXMBeOmoF7EhXmO8/niIvaJlDI27VwiBsmM7XcwEcFQu6c3Nu/GkpIwXFWIjsriVxZx80DbwHLYlvhMaXFcAASDxBjE1e0jeKEDPMrsC2kcW5hq9kNe4CvRpJXfJeLLqGdTUvHI0/fP0fN2+1E0Ji7cuGZb7IX9YTPZML8yqGbmFxnNTYfvkH+GPPWg=="
           },
           {
             "url": "mariadb-java-client-2.6.0.jar",
-            "sig": "SfYkFEkpqNfytOeGYNTSB0VD1sNLvTFQR9oCRv+e2y6GzawaZHBGo+9nKrZJ/4MUDVxQLfOiyaEJyQOI8Y+L7A=="
+            "sig": "diGD3TU/lfXB1EUhMMFhtNI6tb7UjLElqDadls/K8YbXXDri5W79/jEuAEESM3EICr0AFTwgMSVYDxJMhtvueZ5zkrflH2U3R4XBq6uUj9niDyW6uzcLtHH1QcT4u/99KH1Rt3a1aIbd8xz4fb/hY6wv8V0jNtQzB9zEdDl6KZP0ST+4NWrg9sfSHVGksNGOFI4FrslNrLFrqRNxEc/Dnvtx+ZzyW3CoEOxcalkE9n3mmWChRE9ZfjAx2cFFVNgs4e6ulxIWBU3fJRtoP9meizb4R8Z4XglrP7+5ZXuAEMpqWm3DTOlYRT9djvwiLkcFldPjD85m6Hfpyd1Rb6NwZg=="
           }
         ],
         "manifest": {
@@ -162,219 +468,15 @@
         "artifacts": [
           {
             "url": "data-import-handler-8.6.0.jar",
-            "sig": "mH6VVyBu0TQ3oIDH01FSVHzI0lAPI7+Eu4TtdFtV+JtYfC7LFKRs0nyiWE1Gs2U/L9dXm5/At08jkG0CgASN2A=="
+            "sig": "D55D4yQaKJLO6LbwVuFQwfayWfpX9YT5Z5sryXsN4m49PyphVPM+DLgJGobEm7jurIBLuTc1OQ6QZes2+DRgfwip1DaRWFdF3Z9EFnqtvMXOx7hXCl/ul75bs586QKDwQKHimgG6asKEwsVD6CFT7F6BsShG94c8bKkdRcqK2hZwEbgBMo4RZwYib14s5LASgXQypfhtF7lunW19aONC+eF+WXTFJzMAGsS34xHpdt/f5MH8+8RK7aM46VfV0XwJE0RjIvjr2NhOuDCMyNE3WqUtrBZjN8FUvZA3HRjWsXORGv8Zzof0SoBmHsNs05bMd6NRozbqznqyU887isUdhw=="
           },
           {
             "url": "mariadb-java-client-2.6.0.jar",
-            "sig": "SfYkFEkpqNfytOeGYNTSB0VD1sNLvTFQR9oCRv+e2y6GzawaZHBGo+9nKrZJ/4MUDVxQLfOiyaEJyQOI8Y+L7A=="
+            "sig": "diGD3TU/lfXB1EUhMMFhtNI6tb7UjLElqDadls/K8YbXXDri5W79/jEuAEESM3EICr0AFTwgMSVYDxJMhtvueZ5zkrflH2U3R4XBq6uUj9niDyW6uzcLtHH1QcT4u/99KH1Rt3a1aIbd8xz4fb/hY6wv8V0jNtQzB9zEdDl6KZP0ST+4NWrg9sfSHVGksNGOFI4FrslNrLFrqRNxEc/Dnvtx+ZzyW3CoEOxcalkE9n3mmWChRE9ZfjAx2cFFVNgs4e6ulxIWBU3fJRtoP9meizb4R8Z4XglrP7+5ZXuAEMpqWm3DTOlYRT9djvwiLkcFldPjD85m6Hfpyd1Rb6NwZg=="
           }
         ],
         "manifest": {
           "version-constraint": "8.6",
-          "plugins": [
-            {
-              "name": "request-handler",
-              "setup-command": {
-                "path": "/api/collections/${collection}/config",
-                "payload": {
-                  "add-requesthandler": {
-                    "name": "${RH-HANDLER-PATH}",
-                    "class": "data-import-handler:org.apache.solr.handler.dataimport.DataImportHandler",
-                    "defaults": {
-                      "config": "data-config.xml"
-                    }
-                  }
-                },
-                "method": "POST"
-              },
-              "uninstall-command": {
-                "path": "/api/collections/${collection}/config",
-                "payload": {
-                  "delete-requesthandler": "${RH-HANDLER-PATH}"
-                },
-                "method": "POST"
-              },
-              "verify-command": {
-                "path": "/api/collections/${collection}/config/requestHandler?componentName=${RH-HANDLER-PATH}&meta=true",
-                "method": "GET",
-                "condition": "$['config'].['requestHandler'].['${RH-HANDLER-PATH}'].['_packageinfo_'].['version']",
-                "expected": "${package-version}"
-              }
-            }
-          ],
-          "parameter-defaults": {
-            "RH-HANDLER-PATH": "/dataimport"
-          }
-        }
-      },
-      {
-        "version": "9.3.0",
-        "date": "2023-09-08",
-        "artifacts": [
-          {
-            "url": "https://github.com/SearchScale/dataimporthandler/releases/download/v9.3.0/data-import-handler-9.3.0.jar",
-            "sig": "qDwa9rdEp6a1tWMgJaVnuni7eU20/M3oudpnD+ttPpV/ydfE+1/5cT5tSJAgRjNUABG8LxPOqcACFY6so32rkQ=="
-          },
-          {
-            "url": "https://github.com/SearchScale/dataimporthandler/releases/download/v9.3.0/mariadb-java-client-2.6.0.jar",
-            "sig": "SfYkFEkpqNfytOeGYNTSB0VD1sNLvTFQR9oCRv+e2y6GzawaZHBGo+9nKrZJ/4MUDVxQLfOiyaEJyQOI8Y+L7A=="
-          }
-        ],
-        "manifest": {
-          "version-constraint": "9.3.0",
-          "plugins": [
-            {
-              "name": "request-handler",
-              "setup-command": {
-                "path": "/api/collections/${collection}/config",
-                "payload": {
-                  "add-requesthandler": {
-                    "name": "${RH-HANDLER-PATH}",
-                    "class": "data-import-handler:org.apache.solr.handler.dataimport.DataImportHandler",
-                    "defaults": {
-                      "config": "data-config.xml"
-                    }
-                  }
-                },
-                "method": "POST"
-              },
-              "uninstall-command": {
-                "path": "/api/collections/${collection}/config",
-                "payload": {
-                  "delete-requesthandler": "${RH-HANDLER-PATH}"
-                },
-                "method": "POST"
-              },
-              "verify-command": {
-                "path": "/api/collections/${collection}/config/requestHandler?componentName=${RH-HANDLER-PATH}&meta=true",
-                "method": "GET",
-                "condition": "$['config'].['requestHandler'].['${RH-HANDLER-PATH}'].['_packageinfo_'].['version']",
-                "expected": "${package-version}"
-              }
-            }
-          ],
-          "parameter-defaults": {
-            "RH-HANDLER-PATH": "/dataimport"
-          }
-        }
-      },
-      {
-        "version": "9.4.0",
-        "date": "2023-10-16",
-        "artifacts": [
-          {
-            "url": "https://github.com/SearchScale/dataimporthandler/releases/download/v9.4.0/data-import-handler-9.4.0.jar",
-            "sig": "ZKVGJDM2/KlZY8eN2Et52/ybH4iMCsnmJLO6Nk3i5M1gwlyzGecMT9l/shUxYhzM0BNpPkEE/gS1iVtE4hr74Q=="
-          },
-          {
-            "url": "https://github.com/SearchScale/dataimporthandler/releases/download/v9.4.0/mariadb-java-client-2.6.0.jar",
-            "sig": "SfYkFEkpqNfytOeGYNTSB0VD1sNLvTFQR9oCRv+e2y6GzawaZHBGo+9nKrZJ/4MUDVxQLfOiyaEJyQOI8Y+L7A=="
-          }
-        ],
-        "manifest": {
-          "version-constraint": "9.4.0",
-          "plugins": [
-            {
-              "name": "request-handler",
-              "setup-command": {
-                "path": "/api/collections/${collection}/config",
-                "payload": {
-                  "add-requesthandler": {
-                    "name": "${RH-HANDLER-PATH}",
-                    "class": "data-import-handler:org.apache.solr.handler.dataimport.DataImportHandler",
-                    "defaults": {
-                      "config": "data-config.xml"
-                    }
-                  }
-                },
-                "method": "POST"
-              },
-              "uninstall-command": {
-                "path": "/api/collections/${collection}/config",
-                "payload": {
-                  "delete-requesthandler": "${RH-HANDLER-PATH}"
-                },
-                "method": "POST"
-              },
-              "verify-command": {
-                "path": "/api/collections/${collection}/config/requestHandler?componentName=${RH-HANDLER-PATH}&meta=true",
-                "method": "GET",
-                "condition": "$['config'].['requestHandler'].['${RH-HANDLER-PATH}'].['_packageinfo_'].['version']",
-                "expected": "${package-version}"
-              }
-            }
-          ],
-          "parameter-defaults": {
-            "RH-HANDLER-PATH": "/dataimport"
-          }
-        }
-      },
-      {
-        "version": "9.6.1",
-        "date": "2024-11-28",
-        "artifacts": [
-          {
-            "url": "https://github.com/SearchScale/dataimporthandler/releases/download/v9.6.1/data-import-handler-9.6.1.jar",
-            "sig": "dB3iXcEAVfqrKhOBf9f4vIBtz6hW/WQNtOpWx/TadpVnvdC92lPoPJ9mKdw8xcQsEfD7fuVYopYuQ7bWgGjvng=="
-          },
-          {
-            "url": "https://github.com/SearchScale/dataimporthandler/releases/download/v9.6.1/mariadb-java-client-2.6.0.jar",
-            "sig": "SfYkFEkpqNfytOeGYNTSB0VD1sNLvTFQR9oCRv+e2y6GzawaZHBGo+9nKrZJ/4MUDVxQLfOiyaEJyQOI8Y+L7A=="
-          }
-        ],
-        "manifest": {
-          "version-constraint": "9.6.1",
-          "plugins": [
-            {
-              "name": "request-handler",
-              "setup-command": {
-                "path": "/api/collections/${collection}/config",
-                "payload": {
-                  "add-requesthandler": {
-                    "name": "${RH-HANDLER-PATH}",
-                    "class": "data-import-handler:org.apache.solr.handler.dataimport.DataImportHandler",
-                    "defaults": {
-                      "config": "data-config.xml"
-                    }
-                  }
-                },
-                "method": "POST"
-              },
-              "uninstall-command": {
-                "path": "/api/collections/${collection}/config",
-                "payload": {
-                  "delete-requesthandler": "${RH-HANDLER-PATH}"
-                },
-                "method": "POST"
-              },
-              "verify-command": {
-                "path": "/api/collections/${collection}/config/requestHandler?componentName=${RH-HANDLER-PATH}&meta=true",
-                "method": "GET",
-                "condition": "$['config'].['requestHandler'].['${RH-HANDLER-PATH}'].['_packageinfo_'].['version']",
-                "expected": "${package-version}"
-              }
-            }
-          ],
-          "parameter-defaults": {
-            "RH-HANDLER-PATH": "/dataimport"
-          }
-        }
-      },
-      {
-        "version": "9.7.0",
-        "date": "2024-12-02",
-        "artifacts": [
-          {
-            "url": "https://github.com/SearchScale/dataimporthandler/releases/download/v9.7.0/data-import-handler-9.7.0.jar",
-            "sig": "t4qeaYVBNrAvT1PYRg3QHb6ySoRZXzw9Og5dOlnvqw9QdfYkGcVflADGUndCfKxtGTdLHuGS25g6YbaiXIlu0g=="
-          },
-          {
-            "url": "https://github.com/SearchScale/dataimporthandler/releases/download/v9.7.0/mariadb-java-client-2.6.0.jar",
-            "sig": "SfYkFEkpqNfytOeGYNTSB0VD1sNLvTFQR9oCRv+e2y6GzawaZHBGo+9nKrZJ/4MUDVxQLfOiyaEJyQOI8Y+L7A=="
-          }
-        ],
-        "manifest": {
-          "version-constraint": "9.7.0",
           "plugins": [
             {
               "name": "request-handler",

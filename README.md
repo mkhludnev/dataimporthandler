@@ -11,7 +11,7 @@ The success of this project relies on contributions from the broader community t
 
 ## Installing and running
 
-* Start Solr (version 9.X master) nodes with -Denable.packages=true
+* Start Solr (version 9.X or 10.X) nodes with -Denable.packages=true
 
     `bin/solr -c -Denable.packages=true`
 
@@ -111,7 +111,7 @@ Snowflake [JDBC Driver](https://docs.snowflake.com/en/developer-guide/jdbc/jdbc)
 
 ## Contributing
 
-The source code for DIH versions that are compatible with Solr 8.x are in branch_8x branch (branch_9x for Solr 9.x). Please feel free to open issues and/or open pull requests against that branch.
+The source code for DIH versions that are compatible with Solr 8.x are in branch_8x branch (branch_9x for Solr 9.x/10.x). Please feel free to open issues and/or open pull requests against that branch.
 
 ## Known Issues
 
