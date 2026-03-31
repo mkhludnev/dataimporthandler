@@ -1,6 +1,19 @@
-*.class
-*.iml
-*.log
-
+```
+# Dependencies
 target/
+.m2/
+.gradle/
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# Editors
+.vscode/
 .idea/
+```
