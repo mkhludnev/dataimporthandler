@@ -153,8 +153,7 @@ public class DIHCacheSupport {
       if (rowIterator.hasNext()) return rowIterator.next();
       return null;
     } catch (Exception e) {
-      SolrException.log(log, "getNextFromCache() failed for query '" + query
-          + "'", e);
+      log.error("getNextFromCache() failed for query '{}'", query, e);
       wrapAndThrow(DataImportHandlerException.WARN, e);
       return null;
     }

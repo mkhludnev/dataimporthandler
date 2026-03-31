@@ -136,7 +136,7 @@ public class EntityProcessorBase extends EntityProcessor {
           rowIterator = null;
           return null;
         } catch (Exception e) {
-          SolrException.log(log, "getNext() failed for query '" + query + "'", e);
+          log.error("getNext() failed for query '{}'", query, e);
           query = null;
           rowIterator = null;
           wrapAndThrow(DataImportHandlerException.WARN, e);
