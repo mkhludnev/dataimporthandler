@@ -425,7 +425,7 @@ public class DataImporter {
       if (!requestParams.isDebug())
         cumulativeStatistics.add(docBuilder.importStatistics);
     } catch (Exception e) {
-      SolrException.log(log, "Full Import failed", e);
+      log.error("Full Import failed", e);
       docBuilder.handleError("Full Import failed", e);
     } finally {
       setStatus(Status.IDLE);
