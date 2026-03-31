@@ -34,7 +34,7 @@ import org.apache.solr.common.util.StrUtils;
 import org.apache.solr.core.SolrCore;
 import org.apache.solr.core.SolrResourceLoader;
 import org.apache.solr.handler.RequestHandlerBase;
-import org.apache.solr.metrics.MetricsMap;
+import org.apache.solr.metrics.SolrMetricManager;
 import org.apache.solr.metrics.SolrMetricsContext;
 import org.apache.solr.request.SolrQueryRequest;
 import org.apache.solr.response.RawResponseWriter;
@@ -46,6 +46,7 @@ import org.apache.solr.util.plugin.SolrCoreAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.opentelemetry.api.common.Attributes;
 import static org.apache.solr.handler.dataimport.DataImporter.IMPORT_CMD;
 
 /**
@@ -76,7 +77,7 @@ public class DataImportHandler extends RequestHandlerBase implements
 
   private String myName = "dataimport";
 
-  private MetricsMap metrics;
+  private SolrMetricManager.MetricGauge<Map<String,Object>> metrics;
 
   private static final String PARAM_WRITER_IMPL = "writerImpl";
   private static final String DEFAULT_WRITER_NAME = "SolrWriter";
@@ -271,7 +272,8 @@ public class DataImportHandler extends RequestHandlerBase implements
   @Override
   public void initializeMetrics(SolrMetricsContext parentContext, String scope) {
     super.initializeMetrics(parentContext, scope);
-    metrics = new MetricsMap((map) -> {
+    metrics = solrMetricsContext.registerGauge(this, () -> {
+      Map<String,Object> map = new HashMap<>();
       if (importer != null) {
         DocBuilder.Statistics cumulative = importer.cumulativeStatistics;
 
@@ -292,8 +294,8 @@ public class DataImportHandler extends RequestHandlerBase implements
         map.put(DataImporter.MSG.TOTAL_DOCS_DELETED, cumulative.deletedDocCount);
         map.put(DataImporter.MSG.TOTAL_DOCS_SKIPPED, cumulative.skipDocCount);
       }
-    });
-    solrMetricsContext.gauge(metrics, true, "importer", getCategory().toString(), scope);
+      return map;
+    }, Attributes.empty(), "importer");
   }
 
   // //////////////////////SolrInfoMBeans methods //////////////////////
