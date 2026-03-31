@@ -1,4 +1,3 @@
-```
 # Dependencies
 target/
 .m2/
@@ -16,4 +15,3 @@ target/
 # Editors
 .vscode/
 .idea/
-```
