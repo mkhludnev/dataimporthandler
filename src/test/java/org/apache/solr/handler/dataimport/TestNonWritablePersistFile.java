@@ -55,12 +55,12 @@ public class TestNonWritablePersistFile extends AbstractDataImportHandlerTestCas
   @BeforeClass
   public static void createTempSolrHomeAndCore() throws Exception {
     tmpSolrHome = createTempDir().toFile().getAbsolutePath();
-    FileUtils.copyDirectory(getFile("dih/solr"), new File(tmpSolrHome).getAbsoluteFile());
+    FileUtils.copyDirectory(getFile("dih/solr").toFile(), new File(tmpSolrHome).getAbsoluteFile());
     initCore("dataimport-solrconfig.xml", "dataimport-schema.xml", 
-             new File(tmpSolrHome).getAbsolutePath());
+             new File(tmpSolrHome).toPath());
     
     // See SOLR-2551
-    String configDir = h.getCore().getResourceLoader().getConfigDir();
+    String configDir = new File(tmpSolrHome, "collection1" + File.separator + "conf").getAbsolutePath();
     String filePath = configDir;
     if (configDir != null && !configDir.endsWith(File.separator))
       filePath += File.separator;

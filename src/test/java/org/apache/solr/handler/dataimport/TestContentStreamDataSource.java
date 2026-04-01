@@ -19,7 +19,7 @@ package org.apache.solr.handler.dataimport;
 import org.apache.commons.io.FileUtils;
 import org.apache.solr.embedded.JettyConfig;
 import org.apache.solr.embedded.JettySolrRunner;
-import org.apache.solr.client.solrj.impl.HttpJdkSolrClient;
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.request.ContentStreamUpdateRequest;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.apache.solr.common.params.UpdateParams;
@@ -74,9 +74,10 @@ public class TestContentStreamDataSource extends AbstractDataImportHandlerTestCa
     params.set("command", "full-import");
     params.set("clean", "false");
     req.setParams(params);
-    req.addContentStream(new ContentStreamBase.StringStream(xml));
-    req.setContentType("text/xml; charset=UTF-8");
-    try (HttpJdkSolrClient solrClient = getHttpSolrClient(buildUrl(jetty.getLocalPort(), "/solr/collection1"))) {
+    ContentStreamBase.StringStream stream = new ContentStreamBase.StringStream(xml);
+    stream.setContentType("text/xml; charset=UTF-8");
+    req.addContentStream(stream);
+    try (SolrClient solrClient = getHttpSolrClient("http://127.0.0.1:" + jetty.getLocalPort() + "/solr/collection1")) {
       solrClient.request(req);
       ModifiableSolrParams qparams = new ModifiableSolrParams();
       qparams.add("q", "*:*");
@@ -96,9 +97,10 @@ public class TestContentStreamDataSource extends AbstractDataImportHandlerTestCa
         "clean", "false", UpdateParams.COMMIT, "false",
         UpdateParams.COMMIT_WITHIN, "1000");
     req.setParams(params);
-    req.addContentStream(new ContentStreamBase.StringStream(xml));
-    req.setContentType("text/xml; charset=UTF-8");
-    try (HttpJdkSolrClient solrServer = getHttpSolrClient(buildUrl(jetty.getLocalPort(), "/solr/collection1"))) {
+    ContentStreamBase.StringStream xmlStream = new ContentStreamBase.StringStream(xml);
+    xmlStream.setContentType("text/xml; charset=UTF-8");
+    req.addContentStream(xmlStream);
+    try (SolrClient solrServer = getHttpSolrClient("http://127.0.0.1:" + jetty.getLocalPort() + "/solr/collection1")) {
       solrServer.request(req);
       Thread.sleep(100);
       ModifiableSolrParams queryAll = params("q", "*", "df", "desc");
@@ -168,14 +170,14 @@ public class TestContentStreamDataSource extends AbstractDataImportHandlerTestCa
       dataDir.mkdirs();
       confDir.mkdirs();
 
-      FileUtils.copyFile(getFile(getSolrXmlFile()), new File(homeDir, "solr.xml"));
+      FileUtils.copyFile(getFile(getSolrXmlFile()).toFile(), new File(homeDir, "solr.xml"));
       File f = new File(confDir, "solrconfig.xml");
-      FileUtils.copyFile(getFile(getSolrConfigFile()), f);
+      FileUtils.copyFile(getFile(getSolrConfigFile()).toFile(), f);
       f = new File(confDir, "schema.xml");
 
-      FileUtils.copyFile(getFile(getSchemaFile()), f);
+      FileUtils.copyFile(getFile(getSchemaFile()).toFile(), f);
       f = new File(confDir, "data-config.xml");
-      FileUtils.copyFile(getFile(CONF_DIR + "dataconfig-contentstream.xml"), f);
+      FileUtils.copyFile(getFile(CONF_DIR + "dataconfig-contentstream.xml").toFile(), f);
 
       Files.createFile(homeDir.toPath().resolve("collection1/core.properties"));
     }
@@ -191,7 +193,7 @@ public class TestContentStreamDataSource extends AbstractDataImportHandlerTestCa
   }
 
   private static JettyConfig buildJettyConfig(String context) {
-    return JettyConfig.builder().setContext(context).stopAtShutdown(true).build();
+    return JettyConfig.builder().stopAtShutdown(true).build();
   }
 
   static String xml = "<root>\n"
