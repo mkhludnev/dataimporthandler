@@ -16,7 +16,7 @@
  */
 package org.apache.solr.handler.dataimport;
 
-import org.apache.lucene.analysis.charfilter.HTMLStripCharFilter;
+import org.apache.lucene.analysis.charfilter.HTMLStripCharFilter ;
 
 import java.io.IOException;
 import java.io.StringReader;
