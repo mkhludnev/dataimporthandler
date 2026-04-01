@@ -1,4 +1,4 @@
-```
+
 # Compiled Java classes
 *.class
 
@@ -28,4 +28,3 @@ libs/
 # System files
 .DS_Store
 Thumbs.db
-```
