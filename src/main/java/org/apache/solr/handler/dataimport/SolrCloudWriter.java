@@ -125,11 +125,6 @@ public class SolrCloudWriter extends SolrWriter { //not sure about ascendant
   protected void syncThenUpdate(Consumer<UpdateRequest> customizer) throws Exception {
     solrCmdDistributor.blockAndDoRetries();
     UpdateRequest ureq = new UpdateRequest();
-    // otherwise I've got
-    // Destination node is not provided!
-    //        at org.apache.solr.client.solrj.impl.Http2SolrClient.unwrapV2Request(Http2SolrClient.java:638)
-    String baseUrl = destDocColl.getActiveSlicesArr()[0].getLeader().getBaseUrl();
-    ureq.setBasePath(baseUrl);
 
     customizer.accept(ureq);
     ureq.process(updateClient, destColl);

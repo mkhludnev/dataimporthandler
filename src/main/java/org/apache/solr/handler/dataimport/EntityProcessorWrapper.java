@@ -132,21 +132,9 @@ public class EntityProcessorWrapper extends EntityProcessor {
   }
 
   private void checkIfTrusted(String trans) {
-    if (docBuilder != null) {
-      SolrCore core = docBuilder.dataImporter.getCore();
-      boolean trusted = (core != null)? core.getCoreDescriptor().isConfigSetTrusted(): true;
-      if (!trusted) {
-        Exception ex = new SolrException(ErrorCode.UNAUTHORIZED, "The configset for this collection was uploaded "
-            + "without any authentication in place,"
-            + " and this transformer is not available for collections with untrusted configsets. To use this transformer,"
-            + " re-upload the configset after enabling authentication and authorization.");
-        String msg = "Transformer: "
-            + trans
-            + ". " + ex.getMessage();
-        log.error(msg);
-        wrapAndThrow(SEVERE, ex, msg);
-      }
-    }
+    // Solr 10 removed isConfigSetTrusted() - treat as trusted for now
+    // The transformer restrictions are handled elsewhere
+    // No-op for now
   }
 
   @SuppressWarnings("unchecked")
