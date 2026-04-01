@@ -109,7 +109,7 @@ public class SimplePropertiesWriter extends DIHProperties {
     }
     for (final Locale l : Locale.getAvailableLocales()) {
       if(name.equals(l.toString()) || name.equals(l.getDisplayName(Locale.ROOT))) {
-        return locale;
+        return l;
       }
     }
     try {

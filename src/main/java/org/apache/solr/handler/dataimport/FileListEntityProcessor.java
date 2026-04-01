@@ -249,8 +249,8 @@ public class FileListEntityProcessor extends EntityProcessorBase {
 
   private boolean matchesFilename(final Path path) {
     final String name = path.getFileName().toString();
-    return fileNamePattern == null || fileNamePattern.matcher(name).find()
-        && (excludesPattern == null || excludesPattern.matcher(name).find());
+    return (fileNamePattern == null || fileNamePattern.matcher(name).find())
+        && (excludesPattern == null || !excludesPattern.matcher(name).find());
   }
 
   private Stream<Map<String,Object>> getFilesStream(final Path dir) {
