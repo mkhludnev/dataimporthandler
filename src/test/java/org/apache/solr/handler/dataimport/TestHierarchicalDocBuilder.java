@@ -259,10 +259,10 @@ public class TestHierarchicalDocBuilder extends AbstractDataImportHandlerTestCas
     /* The limit of search queue is doubled to catch the error in case when for some reason there are more docs than expected  */
     SolrIndexSearcher searcher = req.getSearcher();
     TopDocs result = searcher.search(query, values.length * 2);
-    assertEquals(values.length, result.totalHits.value);
+    assertEquals(values.length, result.totalHits.value());
     List<String> actualValues = new ArrayList<String>();
     for (int index = 0; index < values.length; ++index) {
-      Document doc = searcher.doc(result.scoreDocs[index].doc);
+      Document doc = searcher.storedFields().document(result.scoreDocs[index].doc);
       actualValues.add(doc.get(field));
     }
     
