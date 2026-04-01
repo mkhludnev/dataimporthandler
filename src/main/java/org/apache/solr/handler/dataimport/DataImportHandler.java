@@ -34,8 +34,6 @@ import org.apache.solr.common.util.StrUtils;
 import org.apache.solr.core.SolrCore;
 import org.apache.solr.core.SolrResourceLoader;
 import org.apache.solr.handler.RequestHandlerBase;
-import org.apache.solr.metrics.SolrMetricManager;
-import org.apache.solr.metrics.SolrMetricsContext;
 import org.apache.solr.request.SolrQueryRequest;
 import org.apache.solr.response.RawResponseWriter;
 import org.apache.solr.response.SolrQueryResponse;
@@ -46,7 +44,6 @@ import org.apache.solr.util.plugin.SolrCoreAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.opentelemetry.api.common.Attributes;
 import static org.apache.solr.handler.dataimport.DataImporter.IMPORT_CMD;
 
 /**
@@ -77,7 +74,7 @@ public class DataImportHandler extends RequestHandlerBase implements
 
   private String myName = "dataimport";
 
-  private SolrMetricManager.MetricGauge<Map<String,Object>> metrics;
+  // MetricGauge removed - Solr 10 metrics API changed
 
   private static final String PARAM_WRITER_IMPL = "writerImpl";
   private static final String DEFAULT_WRITER_NAME = "SolrWriter";
@@ -272,30 +269,7 @@ public class DataImportHandler extends RequestHandlerBase implements
   @Override
   public void initializeMetrics(SolrMetricsContext parentContext, String scope) {
     super.initializeMetrics(parentContext, scope);
-    metrics = solrMetricsContext.registerGauge(this, () -> {
-      Map<String,Object> map = new HashMap<>();
-      if (importer != null) {
-        DocBuilder.Statistics cumulative = importer.cumulativeStatistics;
-
-        map.put("Status", importer.getStatus().toString());
-
-        if (importer.docBuilder != null) {
-          DocBuilder.Statistics running = importer.docBuilder.importStatistics;
-          map.put("Documents Processed", running.docCount);
-          map.put("Requests made to DataSource", running.queryCount);
-          map.put("Rows Fetched", running.rowsCount);
-          map.put("Documents Deleted", running.deletedDocCount);
-          map.put("Documents Skipped", running.skipDocCount);
-        }
-
-        map.put(DataImporter.MSG.TOTAL_DOC_PROCESSED, cumulative.docCount);
-        map.put(DataImporter.MSG.TOTAL_QUERIES_EXECUTED, cumulative.queryCount);
-        map.put(DataImporter.MSG.TOTAL_ROWS_EXECUTED, cumulative.rowsCount);
-        map.put(DataImporter.MSG.TOTAL_DOCS_DELETED, cumulative.deletedDocCount);
-        map.put(DataImporter.MSG.TOTAL_DOCS_SKIPPED, cumulative.skipDocCount);
-      }
-      return map;
-    }, Attributes.empty(), "importer");
+    // no custom gauges for now (Solr 10 metrics API changed)
   }
 
   // //////////////////////SolrInfoMBeans methods //////////////////////

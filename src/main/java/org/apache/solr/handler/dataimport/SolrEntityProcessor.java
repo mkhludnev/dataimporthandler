@@ -33,8 +33,6 @@ import org.apache.solr.client.solrj.request.SolrQuery;
 import org.apache.solr.client.solrj.SolrRequest;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpJdkSolrClient;
-import org.apache.solr.client.solrj.impl.JsonResponseParser;
-import org.apache.solr.client.solrj.impl.XMLResponseParser;
 import org.apache.solr.client.solrj.request.QueryRequest;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
@@ -101,16 +99,9 @@ public class SolrEntityProcessor extends EntityProcessorBase {
 
       URL url = new URL(serverPath);
       // (wt="xml|javabin") default is javabin
-      if ("xml".equals(context.getResolvedEntityAttribute(CommonParams.WT))) {
-        solrClient = new HttpJdkSolrClient.Builder(url.toExternalForm())
-            .withResponseParser(new XMLResponseParser())
-            .build();
-        log.info("using XMLResponseParser");
-      } else {
-        solrClient = new HttpJdkSolrClient.Builder(url.toExternalForm())
-            .build();
-        log.info("using BinaryResponseParser");
-      }
+      solrClient = new HttpJdkSolrClient.Builder(url.toExternalForm())
+          .build();
+      log.info("using BinaryResponseParser");
     } catch (MalformedURLException e) {
       throw new DataImportHandlerException(DataImportHandlerException.SEVERE, e);
     }

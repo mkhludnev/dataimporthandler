@@ -82,7 +82,7 @@ public class ZKPropertiesWriter extends SimplePropertiesWriter {
   public Map<String, Object> readIndexerProperties() {
     Properties props = new Properties();
     try {
-      byte[] data = zkClient.getData(path, null, null, true);
+      byte[] data = zkClient.getData(path, null);
       if (data != null) {
         props.load(new StringReader(new String(data, StandardCharsets.UTF_8)));
       }
