@@ -65,7 +65,13 @@
             <version>10.3.2</version>
             <scope>provided</scope>
         </dependency>
-
+        <!-- Needed for org.apache.lucene.analysis.charfilter.HTMLStripCharFilter (not in lucene-core) -->
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-analysis-common</artifactId>
+            <version>10.3.2</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
