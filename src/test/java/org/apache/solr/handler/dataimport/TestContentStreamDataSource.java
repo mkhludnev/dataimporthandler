@@ -20,12 +20,13 @@ import org.apache.commons.io.FileUtils;
 import org.apache.solr.embedded.JettyConfig;
 import org.apache.solr.embedded.JettySolrRunner;
 import org.apache.solr.client.solrj.impl.HttpJdkSolrClient;
-import org.apache.solr.client.solrj.request.DirectXmlRequest;
+import org.apache.solr.client.solrj.request.ContentStreamUpdateRequest;
+import org.apache.solr.common.params.ModifiableSolrParams;
+import org.apache.solr.common.params.UpdateParams;
+import org.apache.solr.common.util.ContentStreamBase;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
-import org.apache.solr.common.params.ModifiableSolrParams;
-import org.apache.solr.common.params.UpdateParams;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -68,11 +69,13 @@ public class TestContentStreamDataSource extends AbstractDataImportHandlerTestCa
 
   @Test
   public void testSimple() throws Exception {
-    DirectXmlRequest req = new DirectXmlRequest("/dataimport", xml);
+    ContentStreamUpdateRequest req = new ContentStreamUpdateRequest("/dataimport");
     ModifiableSolrParams params = new ModifiableSolrParams();
     params.set("command", "full-import");
     params.set("clean", "false");
     req.setParams(params);
+    req.addContentStream(new ContentStreamBase.StringStream(xml));
+    req.setContentType("text/xml; charset=UTF-8");
     try (HttpJdkSolrClient solrClient = getHttpSolrClient(buildUrl(jetty.getLocalPort(), "/solr/collection1"))) {
       solrClient.request(req);
       ModifiableSolrParams qparams = new ModifiableSolrParams();
@@ -88,11 +91,13 @@ public class TestContentStreamDataSource extends AbstractDataImportHandlerTestCa
 
   @Test
   public void testCommitWithin() throws Exception {
-    DirectXmlRequest req = new DirectXmlRequest("/dataimport", xml);
+    ContentStreamUpdateRequest req = new ContentStreamUpdateRequest("/dataimport");
     ModifiableSolrParams params = params("command", "full-import",
         "clean", "false", UpdateParams.COMMIT, "false",
         UpdateParams.COMMIT_WITHIN, "1000");
     req.setParams(params);
+    req.addContentStream(new ContentStreamBase.StringStream(xml));
+    req.setContentType("text/xml; charset=UTF-8");
     try (HttpJdkSolrClient solrServer = getHttpSolrClient(buildUrl(jetty.getLocalPort(), "/solr/collection1"))) {
       solrServer.request(req);
       Thread.sleep(100);
