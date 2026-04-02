@@ -103,6 +103,7 @@ public class TestAnotherCollectionWriter extends SolrCloudTestCase {
     ));
     GenericSolrRequest dih = new GenericSolrRequest(SolrRequest.METHOD.POST, "/dataimport",
             commandParam);
+    dih.setRequiresCollection(true);
     dih.withContent(xml.getBytes(StandardCharsets.UTF_8), "application/json");
     SimpleSolrResponse dihRsp = dih.process(cluster.getSolrClient(), COORD_COLLECTION);
 
