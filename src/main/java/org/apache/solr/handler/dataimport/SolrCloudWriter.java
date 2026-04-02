@@ -24,6 +24,7 @@ import org.apache.solr.common.SolrException;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.cloud.ClusterState;
 import org.apache.solr.common.cloud.DocCollection;
+import org.apache.solr.common.cloud.Replica;
 import org.apache.solr.common.cloud.Slice;
 import org.apache.solr.common.cloud.ZkCoreNodeProps;
 import org.apache.solr.common.params.ModifiableSolrParams;
@@ -36,6 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.invoke.MethodHandles;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -127,8 +129,17 @@ public class SolrCloudWriter extends SolrWriter { //not sure about ascendant
     UpdateRequest ureq = new UpdateRequest();
 
     customizer.accept(ureq);
-    Slice anyActiveSlice = destDocColl.getActiveSlices().iterator().next();
-    String leaderBaseUrl = new ZkCoreNodeProps(anyActiveSlice.getLeader()).getBaseUrl();
+    Collection<Slice> activeSlices = destDocColl.getActiveSlices();
+    if (activeSlices.isEmpty()) {
+      throw new SolrException(SolrException.ErrorCode.SERVER_ERROR,
+              "No active slices found for collection: " + destColl);
+    }
+    Replica leader = activeSlices.iterator().next().getLeader();
+    if (leader == null) {
+      throw new SolrException(SolrException.ErrorCode.SERVER_ERROR,
+              "No leader found for collection: " + destColl);
+    }
+    String leaderBaseUrl = new ZkCoreNodeProps(leader).getBaseUrl();
     updateClient.requestWithBaseUrl(leaderBaseUrl, ureq, destColl);
   }
 
