@@ -566,8 +566,8 @@ public class DocBuilder {
               importStatistics.skipDocCount.getAndIncrement();
               doc = null;
             } else {
-              SolrException.log(log, "Exception while processing: "
-                      + epw.getEntity().getName() + " document : " + doc, e);
+              log.error("Exception while processing: {} document : {}", 
+                  epw.getEntity().getName(), doc, e);
             }
             if (e.getErrCode() == DataImportHandlerException.SEVERE)
               throw e;

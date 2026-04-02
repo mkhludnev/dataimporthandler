@@ -64,11 +64,11 @@ public class TestZKPropertiesWriter extends AbstractDataImportHandlerTestCase {
     System.setProperty("zkHost", zkServer.getZkAddress());
     System.setProperty("jetty.port", "0000");
 
-    zkServer.buildZooKeeper(getFile("dih/solr").toPath(),
+    zkServer.buildZooKeeper(getFile("dih/solr"),
         "dataimport-solrconfig.xml", "dataimport-schema.xml");
 
     //initCore("solrconfig.xml", "schema.xml", getFile("dih/solr").getAbsolutePath());
-    cc = createDefaultCoreContainer(getFile("dih/solr").toPath());
+    cc = createDefaultCoreContainer(getFile("dih/solr"));
   }
 
   @Before

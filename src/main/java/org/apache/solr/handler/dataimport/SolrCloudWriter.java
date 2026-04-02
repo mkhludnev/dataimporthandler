@@ -16,7 +16,7 @@
  */
 package org.apache.solr.handler.dataimport;
 
-import org.apache.solr.client.solrj.impl.Http2SolrClient;
+import org.apache.solr.client.solrj.jetty.HttpJettySolrClient;
 import org.apache.solr.client.solrj.request.AbstractUpdateRequest;
 import org.apache.solr.client.solrj.request.UpdateRequest;
 import org.apache.solr.cloud.ZkController;
@@ -24,6 +24,7 @@ import org.apache.solr.common.SolrException;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.cloud.ClusterState;
 import org.apache.solr.common.cloud.DocCollection;
+import org.apache.solr.common.cloud.Replica;
 import org.apache.solr.common.cloud.Slice;
 import org.apache.solr.common.cloud.ZkCoreNodeProps;
 import org.apache.solr.common.params.ModifiableSolrParams;
@@ -36,6 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.invoke.MethodHandles;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -47,7 +49,7 @@ public class SolrCloudWriter extends SolrWriter { //not sure about ascendant
   private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
   public static final String DST_COLL_PARAM = "destinationCollection";
-  private final Http2SolrClient updateClient;
+  private final HttpJettySolrClient updateClient;
   private final String destColl;
   private final DocCollection destDocColl;
   private final SolrCmdDistributor solrCmdDistributor;
@@ -125,14 +127,20 @@ public class SolrCloudWriter extends SolrWriter { //not sure about ascendant
   protected void syncThenUpdate(Consumer<UpdateRequest> customizer) throws Exception {
     solrCmdDistributor.blockAndDoRetries();
     UpdateRequest ureq = new UpdateRequest();
-    // otherwise I've got
-    // Destination node is not provided!
-    //        at org.apache.solr.client.solrj.impl.Http2SolrClient.unwrapV2Request(Http2SolrClient.java:638)
-    String baseUrl = destDocColl.getActiveSlicesArr()[0].getLeader().getBaseUrl();
-    ureq.setBasePath(baseUrl);
 
     customizer.accept(ureq);
-    ureq.process(updateClient, destColl);
+    Collection<Slice> activeSlices = destDocColl.getActiveSlices();
+    if (activeSlices.isEmpty()) {
+      throw new SolrException(SolrException.ErrorCode.SERVER_ERROR,
+              "No active slices found for collection: " + destColl);
+    }
+    Replica leader = activeSlices.iterator().next().getLeader();
+    if (leader == null) {
+      throw new SolrException(SolrException.ErrorCode.SERVER_ERROR,
+              "No leader found for collection: " + destColl);
+    }
+    String leaderBaseUrl = new ZkCoreNodeProps(leader).getBaseUrl();
+    updateClient.requestWithBaseUrl(leaderBaseUrl, ureq, destColl);
   }
 
   protected void syncThenUpdateLog(Consumer<UpdateRequest> customizer) {

@@ -109,7 +109,7 @@ public class SimplePropertiesWriter extends DIHProperties {
     }
     for (final Locale l : Locale.getAvailableLocales()) {
       if(name.equals(l.toString()) || name.equals(l.getDisplayName(Locale.ROOT))) {
-        return locale;
+        return l;
       }
     }
     try {
@@ -127,7 +127,7 @@ public class SimplePropertiesWriter extends DIHProperties {
       if (core == null) {
         configDir = SolrPaths.locateSolrHome().toString();
       } else {
-        configDir = core.getResourceLoader().getConfigDir();
+        configDir = core.getResourceLoader().getConfigPath().toString();
       }
     }
   }

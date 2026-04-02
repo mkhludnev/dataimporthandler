@@ -22,6 +22,7 @@ import java.lang.invoke.MethodHandles;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Properties;
+import org.apache.zookeeper.data.Stat;
 
 import org.apache.solr.common.cloud.SolrZkClient;
 import org.apache.zookeeper.KeeperException.NodeExistsException;
@@ -66,12 +67,15 @@ public class ZKPropertiesWriter extends SimplePropertiesWriter {
     try {
       existing.store(output, null);
       byte[] bytes = output.toString().getBytes(StandardCharsets.UTF_8);
-      if (!zkClient.exists(path, false)) {
+      // Solr 10 / ZooKeeper-style signatures: watcher (or null), version = -1
+      if (!zkClient.exists(path)) {
         try {
-          zkClient.makePath(path, false);
-        } catch (NodeExistsException e) {}
-      }
-      zkClient.setData(path, bytes, false);
+            zkClient.makePath(path, false);
+            // ensure the znode exists; API changed in Solr 10, so avoid boolean args
+            zkClient.makePath(path, bytes, true);
+          } catch (NodeExistsException e) {}
+        }
+        zkClient.setData(path, bytes, -1);
     } catch (Exception e) {
       SolrZkClient.checkInterrupted(e);
       log.warn("Could not persist properties to " + path + " :" + e.getClass(), e);
@@ -82,7 +86,8 @@ public class ZKPropertiesWriter extends SimplePropertiesWriter {
   public Map<String, Object> readIndexerProperties() {
     Properties props = new Properties();
     try {
-      byte[] data = zkClient.getData(path, null, null, true);
+      Stat stat = new Stat();
+      byte[] data = zkClient.getData(path, null, stat);
       if (data != null) {
         props.load(new StringReader(new String(data, StandardCharsets.UTF_8)));
       }

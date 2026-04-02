@@ -26,6 +26,7 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.SimpleSolrResponse;
 import org.apache.solr.cloud.SolrCloudTestCase;
 import org.apache.solr.common.params.MapSolrParams;
+import org.apache.solr.common.util.NamedList;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -44,16 +45,14 @@ public class TestAnotherCollectionWriter extends SolrCloudTestCase {
   @BeforeClass
   public static void setupCluster() throws Exception {
     configureCluster(NUM_NODES)
-            .addConfig("_default", getFile("dih/solr").toPath().resolve("configsets").resolve("_default"))
-            .withSolrXml(getFile("dih/solr").toPath().resolve("solrcloud.xml"))
+            .addConfig("_default", getFile("dih/solr").resolve("configsets").resolve("_default"))
+            .withSolrXml(getFile("dih/solr").resolve("solrcloud.xml"))
             .configure();
 
     CollectionAdminRequest.createCollection(DATA_COLLECTION, "_default", 1, 1)
-            .setPerReplicaState(SolrCloudTestCase.USE_PER_REPLICA_STATE)
             .process(cluster.getSolrClient());
     // here I just mimic coordinator node flow
     CollectionAdminRequest.createCollection(COORD_COLLECTION, "_default", 1, 1)
-            .setPerReplicaState(SolrCloudTestCase.USE_PER_REPLICA_STATE)
             .process(cluster.getSolrClient());
   }
 
@@ -104,10 +103,13 @@ public class TestAnotherCollectionWriter extends SolrCloudTestCase {
     ));
     GenericSolrRequest dih = new GenericSolrRequest(SolrRequest.METHOD.POST, "/dataimport",
             commandParam);
-    dih.withContent(xml.getBytes(StandardCharsets.UTF_8), "application/json");
+    dih.setRequiresCollection(true);
+    dih.withContent(xml.getBytes(StandardCharsets.UTF_8), "text/xml");
     SimpleSolrResponse dihRsp = dih.process(cluster.getSolrClient(), COORD_COLLECTION);
 
-    assertEquals(0, dihRsp.getResponse().findRecursive("responseHeader","status"));
+    NamedList<?> responseHeader = (NamedList<?>) dihRsp.getResponse().get("responseHeader");
+    assertNotNull(responseHeader);
+    assertEquals(0, responseHeader.get("status"));
 
     assertDocCount(expectedAfterImport);
   }
