@@ -127,7 +127,9 @@ public class SolrCloudWriter extends SolrWriter { //not sure about ascendant
     UpdateRequest ureq = new UpdateRequest();
 
     customizer.accept(ureq);
-    ureq.process(updateClient, destColl);
+    Slice anyActiveSlice = destDocColl.getActiveSlices().iterator().next();
+    String leaderBaseUrl = new ZkCoreNodeProps(anyActiveSlice.getLeader()).getBaseUrl();
+    updateClient.requestWithBaseUrl(leaderBaseUrl, ureq, destColl);
   }
 
   protected void syncThenUpdateLog(Consumer<UpdateRequest> customizer) {
